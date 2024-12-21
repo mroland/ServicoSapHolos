@@ -10,6 +10,7 @@ import br.com.atarde.servicosap.sap.dao.CategoriaDAO;
 import br.com.atarde.servicosap.sap.dao.CstDAO;
 import br.com.atarde.servicosap.sap.model.CST;
 import br.com.atarde.servicosap.sap.model.Categoria;
+import br.com.atarde.servicosap.sap.model.Filial;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.sap.model.PedidoVenda;
 import br.com.atarde.servicosap.sap.model.PedidoVendaLinha;
@@ -161,7 +162,7 @@ public class EasyclassNotaFiscalSaidaValidation extends NotaFiscalSaidaValidatio
 
 					linha.setEmpresa(model.getEmpresa());
 
-					retorno.append(this.validaLinhaNFF(linha));
+					retorno.append(this.validaLinhaNFF(linha, model.getFilial()));
 
 				}
 
@@ -177,13 +178,13 @@ public class EasyclassNotaFiscalSaidaValidation extends NotaFiscalSaidaValidatio
 
 	}
 
-	protected String validaLinhaNFF(EasyclassNotaFiscalSaidaLinha model) {
+	protected String validaLinhaNFF(EasyclassNotaFiscalSaidaLinha model, Filial filial) {
 
 		Categoria categoria;
 
 		StringBuilder retorno = new StringBuilder();
 
-		retorno.append(super.validaLinhaNFF(model));
+		retorno.append(super.validaLinhaNFF(model, filial));
 
 		if (TSUtil.isEmpty(model.getUCmXCol()) || (!TSUtil.isEmpty(model.getUCmXCol()) && model.getUCmXCol().length() > 10)) {
 

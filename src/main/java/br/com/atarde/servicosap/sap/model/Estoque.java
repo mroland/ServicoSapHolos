@@ -24,6 +24,14 @@ public class Estoque implements Serializable{
 		
 	}
 	
+	public Estoque(String id, Empresa empresa) {
+		
+		this.id = id;
+		
+		this.empresa = empresa;
+		
+	}
+	
 	public Estoque(Item item, Empresa empresa) {
 		
 		this.item = item;

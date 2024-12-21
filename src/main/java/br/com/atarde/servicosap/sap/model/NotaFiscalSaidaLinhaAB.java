@@ -26,7 +26,6 @@ public abstract class NotaFiscalSaidaLinhaAB extends DocumentoLinhaAB implements
 
 	public void setFlagImposto(Boolean flagImposto) {
 		this.flagImposto = flagImposto;
-	}	
-	
-	
+	}
+
 }

@@ -40,7 +40,7 @@ public class EstoqueDAO {
 
 	}
 
-	public Estoque obter(Estoque model) {
+	public Estoque obterItemEstoque(Estoque model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
@@ -64,6 +64,20 @@ public class EstoqueDAO {
 			broker.set(model.getItem().getId());
 
 		}
+
+		return (Estoque) broker.getObjectBean(Estoque.class, "id", "descricao");
+
+	}
+
+	public Estoque obter(Estoque model) {
+
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("SELECT ESTOQUE.\"WhsCode\" AS ID, ESTOQUE.\"WhsName\" AS NOME FROM " + model.getEmpresa().getDbInstancia() + ".OWHS ESTOQUE WHERE ESTOQUE.\"WhsCode\" = ? ");
+
+		broker.setSQL(sql.toString(), model.getId());
 
 		return (Estoque) broker.getObjectBean(Estoque.class, "id", "descricao");
 

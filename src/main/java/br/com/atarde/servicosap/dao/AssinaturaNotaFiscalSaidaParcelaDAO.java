@@ -15,7 +15,7 @@ public class AssinaturaNotaFiscalSaidaParcelaDAO {
 		
 		model.setInterfaceId(broker.getSequenceNextValue("assinaturanotafiscalsaida_parcelas_id_seq"));
 		
-        broker.setPropertySQL("assinaturanotafiscalsaidaparceladao.inserirInterface",
+        broker.setSQL("INSERT INTO ASSINATURANOTAFISCALSAIDA_PARCELAS(ID, NOTAFISCALSAIDA_ID, DATA_VENCIMENTO, VALOR) VALUES(?,?,?,?)",
         		model.getInterfaceId(),
         		model.getNotaFiscalSaida().getInterfaceId(),        		
         		model.getDataVencimento(),
@@ -31,7 +31,7 @@ public class AssinaturaNotaFiscalSaidaParcelaDAO {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf();
 		
-		broker.setPropertySQL("assinaturanotafiscalsaidaparceladao.pesquisarInterface", model.getInterfaceId());
+		broker.setSQL("SELECT ID, NOTAFISCALSAIDA_ID, DATA_VENCIMENTO, VALOR FROM ASSINATURANOTAFISCALSAIDA_PARCELAS WHERE NOTAFISCALSAIDA_ID = ?", model.getInterfaceId());
 		
 		return broker.getCollectionBean(AssinaturaNotaFiscalSaidaParcela.class, "interfaceId", "notaFiscalSaida.interfaceId", "dataVencimento", "valor");
 	}	

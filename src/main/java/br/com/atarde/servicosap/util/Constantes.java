@@ -248,7 +248,9 @@ public class Constantes {
 
     public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto DocumentoLinhaAB válido.";
     
-    public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE = "Favor inserir objeto Item.estoque ou atributo Item.estoque.id do Objeto DocumentoLinhaAB válido.";    
+    public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE = "Favor inserir objeto Item.estoque ou atributo Item.estoque.id do Objeto DocumentoLinhaAB válido.";
+    
+    public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO = "O item informado não é de estoque nem de venda. Favor procurar a TI.";
     
     public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto DocumentoLinhaAB.";
     

@@ -14,7 +14,7 @@ public class AssinaturaNotaFiscalSaidaLinhaDAO {
 		
 		model.setInterfaceId(broker.getSequenceNextValue("assinaturanotafiscalsaida_linhas_id_seq"));
 		
-        broker.setPropertySQL("assinaturanotafiscalsaidalinhadao.inserirInterface",
+        broker.setSQL("INSERT INTO ASSINATURANOTAFISCALSAIDA_LINHAS(ID, NOTAFISCALSAIDA_ID, ITEM_ID, QUANTIDADE, VALOR_UNITARIO, VALOR, CODIGO_IMPOSTO_ID, CST_COFINS, CST_ICMS, CST_IPI, CST_PIS, CONTA_CONTABIL_ID, CFOP, CODIGO_BARRAS, PEDIDO_VENDA_ID, PEDIDO_VENDA_LINHA_NUMERO, UTILIZACAO_ID, VOLUME, FLAG_IMPOSTO, DEPOSITO_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         		model.getInterfaceId(),
         		model.getNotaFiscalSaida().getInterfaceId(),        		
         		model.getItem().getId(),
@@ -33,7 +33,8 @@ public class AssinaturaNotaFiscalSaidaLinhaDAO {
                 model.getPedidoVendaLinha().getNumero(),
                 model.getUtilizacao().getId(),
                 model.getVolume(),
-                model.getFlagImposto());
+                model.getFlagImposto(),
+                model.getEstoque().getId());
 
         broker.execute();
         

@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Item implements Serializable {
 
-	//Tabela OITM
-	
+	// Tabela OITM
+
 	private String id;
 	private String descricao;
 	private Origem origem;
@@ -23,7 +23,7 @@ public class Item implements Serializable {
 	private TipoItem tipo;
 
 	private Boolean flagControleEstoque;
-	private Boolean flgItemVenda;
+	private Boolean flagItemVenda;
 	private Boolean flagItemCompra;
 
 	public String getDescricao() {
@@ -106,12 +106,12 @@ public class Item implements Serializable {
 		this.flagControleEstoque = flagControleEstoque;
 	}
 
-	public Boolean getFlgItemVenda() {
-		return flgItemVenda;
+	public Boolean getFlagItemVenda() {
+		return flagItemVenda;
 	}
 
-	public void setFlgItemVenda(Boolean flgItemVenda) {
-		this.flgItemVenda = flgItemVenda;
+	public void setFlagItemVenda(Boolean flagItemVenda) {
+		this.flagItemVenda = flagItemVenda;
 	}
 
 	public Boolean getFlagItemCompra() {

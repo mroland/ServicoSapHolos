@@ -4,15 +4,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 
-import br.com.atarde.servicosap.sap.dao.CodigoImpostoDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.FilialDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
 import br.com.atarde.servicosap.sap.dao.UtilizacaoDAO;
-import br.com.atarde.servicosap.sap.model.CodigoImposto;
 import br.com.atarde.servicosap.sap.model.DocumentoAB;
 import br.com.atarde.servicosap.sap.model.DocumentoLinhaAB;
 import br.com.atarde.servicosap.sap.model.Estoque;
+import br.com.atarde.servicosap.sap.model.Filial;
 import br.com.atarde.servicosap.sap.model.Utilizacao;
 import br.com.atarde.servicosap.util.Constantes;
 import br.com.atarde.servicosap.util.Utilitarios;
@@ -68,7 +67,7 @@ public class DocumentoValidationAB {
 
 	}
 
-	protected String validaLinhaNFF(DocumentoLinhaAB model) {
+	protected String validaLinhaNFF(DocumentoLinhaAB model, Filial filial) {
 
 		StringBuilder retorno = new StringBuilder();
 
@@ -80,25 +79,88 @@ public class DocumentoValidationAB {
 
 			model.getItem().setEmpresa(model.getEmpresa());
 
-			if (TSUtil.isEmpty(new ItemDAO().obter(model.getItem()))) {
+			model.setItem(new ItemDAO().obter(model.getItem()));
+
+			if (TSUtil.isEmpty(model.getItem())) {
 
 				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 			} else {
 
-				if (TSUtil.isEmpty(model.getItem().getEstoque())) {
+				model.getItem().setEmpresa(model.getEmpresa());
 
-					model.getItem().setEstoque(new Estoque());
+				if (model.getItem().getFlagControleEstoque()) {
 
-				} else {
+					model.setEstoque(new Estoque());
 
-					if (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getItem(), model.getEmpresa())))) {
+					switch (filial.getId()) {
+
+					case 1: // EDITORIAL
+
+						model.getEstoque().setId("100");
+
+						break;
+
+					case 2: // RADIO
+
+						model.getEstoque().setId("200");
+
+						break;
+					case 3: // ATN
+
+						model.getEstoque().setId("300");
+
+						break;
+
+					}
+
+					model.getItem().setEstoque(model.getEstoque());
+
+					if (TSUtil.isEmpty(new EstoqueDAO().obterItemEstoque(new Estoque(model.getItem(), model.getEmpresa())))) {
 
 						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + "\n");
 
 					}
+
+				} else if (model.getItem().getFlagItemVenda()) {
+
+					model.setEstoque(new Estoque());
+
+					switch (filial.getId()) {
+
+					case 1: // EDITORIAL
+
+						model.getEstoque().setId("199");
+
+						break;
+
+					case 2: // RADIO
+
+						model.getEstoque().setId("299");
+
+						break;
+					case 3: // ATN
+
+						model.getEstoque().setId("399");
+
+						break;
+
+					}
+
+					if (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoque().getId(), model.getEmpresa())))) {
+
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + "\n");
+
+					}
+
+				} else {
+
+					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO + "\n");
+
 				}
+
 			}
+
 		}
 
 		if (TSUtil.isEmpty(model.getQuantidade()) || (model.getQuantidade() == 0)) {
@@ -116,12 +178,6 @@ public class DocumentoValidationAB {
 		if (TSUtil.isEmpty(model.getUtilizacao()) || TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) || (!TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) && TSUtil.isEmpty(new UtilizacaoDAO().obter(new Utilizacao(model.getUtilizacao().getId(), model.getEmpresa()))))) {
 
 			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_UTILIZACAO + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getCodigoImposto()) || TSUtil.isEmpty(Utilitarios.tratarString(model.getCodigoImposto().getId())) || (!TSUtil.isEmpty(Utilitarios.tratarString(model.getCodigoImposto().getId())) && TSUtil.isEmpty(new CodigoImpostoDAO().obter(new CodigoImposto("id", model.getCodigoImposto().getId(), model.getEmpresa()))))) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_CODIGO_IMPOSTO + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 		}
 
