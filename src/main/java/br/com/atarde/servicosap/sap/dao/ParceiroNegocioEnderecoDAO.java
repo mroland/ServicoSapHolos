@@ -18,27 +18,24 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class ParceiroNegocioEnderecoDAO {
 
-    public ParceiroNegocioEnderecoDAO() {
-    }
-
 	@SuppressWarnings("unchecked")
 	public List<ParceiroNegocioEndereco> pesquisar(ParceiroNegocio model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("parceironegocioenderecodao.pesquisar", model.getId());
+		broker.setSQL("SELECT CRD1.\"Address\" ADDRESS FROM " + model.getEmpresa().getDbInstancia() + ".CRD1 WHERE CRD1.\"CardCode\" = ?", model.getId());
 
-        return broker.getCollectionBean(ParceiroNegocioEndereco.class, "id");
+		return broker.getCollectionBean(ParceiroNegocioEndereco.class, "id");
 
 	}
 
-    public ParceiroNegocioEndereco obter(ParceiroNegocioEndereco model) {
+	public ParceiroNegocioEndereco obter(ParceiroNegocioEndereco model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("parceironegocioenderecodao.obter", model.getParceiroNegocio().getId(), model.getTipoEndereco(), model.getId());
+		broker.setSQL("SELECT CRD1.\"Address\" FROM " + model.getEmpresa().getDbInstancia() + ".CRD1 WHERE CRD1.\"CardCode\" =? AND CRD1.\"AdresType\" =? AND CRD1.\"Address\" = ?", model.getParceiroNegocio().getId(), model.getTipoEndereco(), model.getId());
 
-        return (ParceiroNegocioEndereco) broker.getObjectBean(ParceiroNegocioEndereco.class, "id");
-    }
+		return (ParceiroNegocioEndereco) broker.getObjectBean(ParceiroNegocioEndereco.class, "id");
+	}
 
 }

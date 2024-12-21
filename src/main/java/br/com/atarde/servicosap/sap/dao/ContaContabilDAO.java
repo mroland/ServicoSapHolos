@@ -10,7 +10,7 @@ public class ContaContabilDAO {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 		
-		broker.setPropertySQL("contacontabilsapdao.obter", model.getId());
+		broker.setSQL("SELECT OACT.\"AcctCode\" AS ID FROM" + model.getEmpresa().getDbInstancia() + ".OACT WHERE OACT.\"AcctCode\" = ?", model.getId());
 		
 		return (ContaContabil) broker.getObjectBean(ContaContabil.class, "id");
 	

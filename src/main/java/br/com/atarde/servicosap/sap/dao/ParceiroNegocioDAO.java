@@ -15,62 +15,67 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class ParceiroNegocioDAO {
 
-    public ParceiroNegocioDAO() {
-    }
+	public ParceiroNegocio obterPorIdentificador(ParceiroNegocio model) {
 
-    public ParceiroNegocio obterPorIdentificador(ParceiroNegocio model) {
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		StringBuilder sql = new StringBuilder();
 
-        StringBuilder sql = new StringBuilder();
+		sql.append("SELECT CRD7.\"CardCode\", OCRD.\"UpdateDate\", OCRD.\"ShipToDef\", OCRD.\"BillToDef\"  ");
 
-        sql.append("SELECT CRD7.CARDCODE, OCRD.UPDATEDATE, OCRD.SHIPTODEF, OCRD.BILLTODEF ");
+		sql.append(" FROM " + model.getEmpresa().getDbInstancia() + ".CRD7, " + model.getEmpresa().getDbInstancia() + ".OCRD");
 
-        sql.append(" FROM DBO.CRD7 WITH(NOLOCK) INNER JOIN");
+		sql.append(" WHERE (CRD7.\"CardCode\" = OCRD.\"CardCode\") AND (CRD7.\"Address\" = '' OR CRD7.\"Address\" IS NULL) ");
 
-        sql.append(" DBO.OCRD WITH(NOLOCK) ON (CRD7.CARDCODE = OCRD.CARDCODE)");
+		sql.append(" AND OCRD.\"CardType\" = 'C'");
 
-        sql.append(" WHERE (CRD7.ADDRESS = '' OR CRD7.ADDRESS IS NULL)");
+		switch (model.getIdentificadorFiscal().getTipoIdentificador().intValue()) {
 
-        sql.append(" AND OCRD.CARDTYPE = 'C'");
+		case 0: // CNPJ
 
-        switch (model.getIdentificadorFiscal().getTipoIdentificador().intValue()){
+			sql.append(" AND REPLACE(REPLACE(REPLACE(CRD7.\"TaxId0\", '.',''), '/',''), '-','')= ?");
 
-            case 0: //CNPJ
+			break;
 
-              sql.append(" AND CRD7.TAXID0= ?");
+		case 1: // CPF
 
-              break;
+			sql.append(" AND REPLACE(REPLACE(REPLACE(CRD7.\"TaxId4\", '.',''), '/',''), '-','')= ?");
 
-            case 1: //CPF
+			break;
 
-              sql.append(" AND CRD7.TAXID4= ?");
+		case 2: // OUTROS
 
-              break;
+			sql.append(" AND REPLACE(REPLACE(REPLACE(CRD7.\"TaxId5\", '.',''), '/',''), '-','')= ?");
 
-            case 2: //OUTROS
+			break;
 
-              sql.append(" AND CRD7.TAXID5= ?");
+		}
 
-              break;
+		broker.setSQL(sql.toString());
 
-        }
+		broker.set(model.getIdentificadorFiscal().getIdentificador());
 
-        broker.setSQL(sql.toString());
+		return (ParceiroNegocio) broker.getObjectBean(ParceiroNegocio.class, "id", "dataAtualizacao", "enderecoEntregaDefault", "enderecoCobrancaDefault");
 
-        broker.set(model.getIdentificadorFiscal().getIdentificador());
-        
-        return (ParceiroNegocio) broker.getObjectBean(ParceiroNegocio.class, "id", "dataAtualizacao", "enderecoEntregaDefault", "enderecoCobrancaDefault");
-
-    }
+	}
 
 	public ParceiroNegocio obter(ParceiroNegocio model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
-		
-		broker.setSQL("SELECT OCRD.CARDCODE,OCRD.SHIPTODEF AS ENDERECO_ENTREGA, OCRD.BILLTODEF AS ENDERECO_COBRANCA, CASE WHEN (OCRD.[VALIDFOR]='Y' OR (OCRD.[VALIDFOR]='N' AND OCRD.[FROZENFOR]='N')) THEN 1 ELSE 0 END AS FLAG_ATIVO FROM OCRD WITH(NOLOCK) WHERE OCRD.CARDCODE = ?", model.getId());
-		
-		return (ParceiroNegocio) broker.getObjectBean(ParceiroNegocio.class, "id", "enderecoEntregaDefault", "enderecoCobrancaDefault", "flagAtivo");
+
+		broker.setSQL("SELECT OCRD.\"CardCode\", OCRD.\"ShipToDef\" AS ENDERECO_ENTREGA, OCRD.\"BillToDef\" AS ENDERECO_COBRANCA, CASE WHEN (OCRD.\"validFor\"='Y' OR (OCRD.\"validFor\"='N' AND OCRD.\"frozenFor\"='N')) THEN true ELSE false END AS FLAG_ATIVO, OCRD.\"U_ATRD_DocSai\" FROM " + model.getEmpresa().getDbInstancia() + ".OCRD WHERE OCRD.\"CardCode\" = ?", model.getId());
+
+		return (ParceiroNegocio) broker.getObjectBean(ParceiroNegocio.class, "id", "enderecoEntregaDefault", "enderecoCobrancaDefault", "flagAtivo", "uTipoDocumento");
+	}
+
+	public ParceiroNegocio obterTesteSAP() {
+
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf("java:comp/env/jdbc/SAPJornalHanaDS");
+
+		broker.setSQL("SELECT \"CardCode\" , \"CardName\"  FROM SBODEMOBR.OCRD o where \"CardCode\" = ?" , "C30000");
+
+		return (ParceiroNegocio) broker.getObjectBean(ParceiroNegocio.class, "id", "nome");
+
 	}
 
 }

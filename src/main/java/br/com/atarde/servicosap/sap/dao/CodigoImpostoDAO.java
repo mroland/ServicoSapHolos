@@ -8,12 +8,12 @@ public class CodigoImpostoDAO {
 
 	public CodigoImposto obter(CodigoImposto model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("codigoimpostodao.obter", model.getId());
+		broker.setSQL("SELECT OSTC.\"Code\" FROM " + model.getEmpresa().getDbInstancia() + ".OSTC WHERE OSTC.\"Code\" = ?", model.getId());
 
-        return (CodigoImposto) broker.getObjectBean(CodigoImposto.class, "id");
-        
+		return (CodigoImposto) broker.getObjectBean(CodigoImposto.class, "id");
+
 	}
 
 }

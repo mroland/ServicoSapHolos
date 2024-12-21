@@ -8,11 +8,11 @@ public class CstDAO {
 
 	public CST obterPeloCodigo(CST model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("cstdao.obterpelocodigo", model.getCodigo(), model.getCategoria().getId());
+		broker.setSQL("SELECT OTSC.\"CodeOut\" FROM" + model.getEmpresa().getDbInstancia() + ".OTSC WHERE OTSC.\"CodeOut\"= ? AND OTSC.\"Category\" = ?", model.getCodigo(), model.getCategoria().getId());
 
-        return (CST) broker.getObjectBean(CST.class, "codigo");
+		return (CST) broker.getObjectBean(CST.class, "codigo");
 	}
 
 }

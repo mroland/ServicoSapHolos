@@ -9,11 +9,11 @@ public class PaisDAO {
 	public Pais obter(Pais model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
-		
-		broker.setPropertySQL("paisdao.obter", model.getId());
-		
+
+		broker.setSQL("SELECT OCRY.\"Code\" AS ID FROM " + model.getEmpresa().getDbInstancia() + ".OCRY WHERE OCRY.\"Code\" = ?", model.getId());
+
 		return (Pais) broker.getObjectBean(Pais.class, "id");
-		
+
 	}
 
 }

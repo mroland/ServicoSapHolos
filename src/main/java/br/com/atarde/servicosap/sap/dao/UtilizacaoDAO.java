@@ -9,10 +9,9 @@ public class UtilizacaoDAO {
 	public Utilizacao obter(Utilizacao model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
-		
-		broker.setPropertySQL("utilizacaodao.obter", model.getId());
-		
+
+		broker.setSQL("SELECT OUSG.ID FROM " + model.getEmpresa().getDbInstancia() + ".OUSG WHERE OUSG.ID = ?", model.getId());
+
 		return (Utilizacao) broker.getObjectBean(Utilizacao.class, "id");
 	}
-
 }

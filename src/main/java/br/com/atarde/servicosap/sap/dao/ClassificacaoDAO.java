@@ -15,18 +15,14 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class ClassificacaoDAO {
 
-    public ClassificacaoDAO() {
-    }
+	public Classificacao obter(Classificacao model) {
 
-    public Classificacao obter(Classificacao model){
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		broker.setSQL("SELECT OCRG.\"GroupCode\" GROUPCODE FROM " + model.getEmpresa().getDbInstancia() + ".OCRG WHERE OCRG.\"GroupCode\" = ? AND OCRG.\"GroupType\"  = ?", model.getId(), model.getParceiroNegocio().getTipo());
 
-        broker.setPropertySQL("classificacaodao.obter", model.getId(), model.getParceiroNegocio().getTipo());
+		return (Classificacao) broker.getObjectBean(Classificacao.class, "id");
 
-        return (Classificacao) broker.getObjectBean(Classificacao.class, "id");
-
-
-    }
+	}
 
 }

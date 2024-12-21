@@ -10,7 +10,7 @@ public class BoletoDAO {
 		
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 		
-		broker.setPropertySQL("boletosapdao.obter", model.getId());
+		broker.setSQL("SELECT OBOE.\"BoeNum\", OBOE.\"BoeStatus\" FROM " + model.getEmpresa().getDbInstancia() + ".OBOE WHERE OBOE.\"BoeNum\" = ?", model.getId());
 
 		return (Boleto) broker.getObjectBean(Boleto.class, "id", "statusBoleto.id");
 	}

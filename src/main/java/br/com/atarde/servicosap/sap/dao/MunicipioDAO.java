@@ -15,13 +15,13 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class MunicipioDAO {
 
-    public Municipio obter(Municipio model){
+	public Municipio obter(Municipio model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("municipiodao.obter", model.getEnderecoAB().getPais().getId(), model.getEnderecoAB().getEstado().getId(), model.getEnderecoAB().getCidade());
+		broker.setSQL("SELECT OCNT.\"AbsId\" FROM " + model.getEmpresa().getDbInstancia() + ".OCNT WHERE OCNT.\"Country\" = ? AND OCNT.\"State\" = ? AND UPPER(OCNT.\"Name\") = UPPER(?)", model.getEnderecoAB().getPais().getId(), model.getEnderecoAB().getEstado().getId(), model.getEnderecoAB().getCidade());
 
-        return (Municipio) broker.getObjectBean(Municipio.class, "id");
-    }
+		return (Municipio) broker.getObjectBean(Municipio.class, "id");
+	}
 
 }

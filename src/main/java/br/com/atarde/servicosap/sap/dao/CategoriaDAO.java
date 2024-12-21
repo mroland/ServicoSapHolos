@@ -10,7 +10,7 @@ public class CategoriaDAO {
 
         TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("categoriadao.obterpelocodigo", model.getCodigo());
+        broker.setSQL("SELECT ONFT.\"AbsId\" ABSID FROM " + model.getEmpresa().getDbInstancia() +".ONFT WHERE ONFT.\"Code\"= ?", model.getCodigo());
 
         return (Categoria) broker.getObjectBean(Categoria.class, "id");
 	}

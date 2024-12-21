@@ -15,37 +15,34 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class VendedorDAO {
 
-    public VendedorDAO() {
-    }
+	public Vendedor obterPeloIdentificador(Vendedor model) {
 
-    public Vendedor obterPeloIdentificador(Vendedor model){
+		TSDataBaseBrokerIf brokerIf = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        TSDataBaseBrokerIf brokerIf = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		brokerIf.setSQL("SELECT OSLP.\"SlpCode\" CODE FROM " + model.getEmpresa().getDbInstancia() + ".OSLP WHERE OSLP.\"Memo\"= ? AND OSLP.\"Active\" = 'Y'", model.getIdentificador());
 
-        brokerIf.setPropertySQL("vendedordao.obterPeloIdentificador",model.getIdentificador());
+		return (Vendedor) brokerIf.getObjectBean(Vendedor.class, "id");
 
-        return (Vendedor) brokerIf.getObjectBean(Vendedor.class, "id");
-        
-    }
+	}
 
-    public Vendedor obterPeloNome(Vendedor model){
+	public Vendedor obterPeloNome(Vendedor model) {
 
-        TSDataBaseBrokerIf brokerIf = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf brokerIf = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        brokerIf.setPropertySQL("vendedordao.obterPeloNome",model.getNome());
+		brokerIf.setSQL("SELECT OSLP.\"SlpCode\" CODE FROM " + model.getEmpresa().getDbInstancia() + ".OSLP WHERE OSLP.\"SlpName\" = ? AND OSLP.\"Active\" = 'Y'", model.getNome());
 
-        return (Vendedor) brokerIf.getObjectBean(Vendedor.class, "id");
-        
-    }
-    
+		return (Vendedor) brokerIf.getObjectBean(Vendedor.class, "id");
+
+	}
+
 	public Vendedor obter(Vendedor model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
-		
-		broker.setPropertySQL("vendedordao.obter", model.getId());
-		
+
+		broker.setSQL("SELECT OSLP.\"SlpCode\" AS ID FROM " + model.getEmpresa().getDbInstancia() + ".OSLP WHERE OSLP.\"SlpCode\" = ?", model.getId());
+
 		return (Vendedor) broker.getObjectBean(Vendedor.class, "id");
-		
-	}    
+
+	} 
 
 }

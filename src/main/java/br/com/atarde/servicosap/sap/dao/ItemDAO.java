@@ -12,7 +12,7 @@ public class ItemDAO {
 
         TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("itemdao.obter", model.getId());
+        broker.setSQL("SELECT OITM.\"ItemCode\" FROM "+ model.getEmpresa().getDbInstancia() + ".OITM WHERE OITM.\"ItemCode\" = ?", model.getId());
 
         return (Item) broker.getObjectBean(Item.class, "id");
         
@@ -23,9 +23,9 @@ public class ItemDAO {
 
         TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("itemdao.pesquisar", model.getEstoque().getId());
+        broker.setSQL("SELECT ITEM.\"ItemCode\" AS ID_EXTERNO, ITEM.\"ItemName\" AS DESCRICAO, PRECO.\"Price\" AS VALOR_UNITARIO , LINHA.\"OnHand\" AS QTD_DISPONIVEL FROM " + model.getEmpresa().getDbInstancia() + ".OITM ITEM , " + model.getEmpresa().getDbInstancia() + ".ITM1 PRECO, " + model.getEmpresa().getDbInstancia() + ".OITW AS LINHA WHERE ITEM.\"ItemCode\" = PRECO.\"ItemCode\" AND LINHA.\"ItemCode\" = ITEM.\"ItemCode\" AND PRECO.\"PriceList\" = 3 AND LINHA.\"OnHand\" > 0 AND LINHA.\"WhsCode\" = ? ", model.getEstoque().getId());
 
-        return broker.getCollectionBean(Item.class, "catalogo","id", "descricao", "preco", "estoqueItem.quantidadeDisponivel");
+        return broker.getCollectionBean(Item.class, "id", "descricao", "preco", "estoqueItem.quantidadeDisponivel");
 	}
 
 }

@@ -17,24 +17,24 @@ import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
  */
 public class FormaPagamentoDAO {
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public List<FormaPagamento> pesquisar(FormaPagamento model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("formapagamentosapdao.pesquisar", model.getTipo());
+		broker.setSQL("SELECT PG.\"PayMethCod\" FROM " + model.getEmpresa().getDbInstancia() + ".OPYM PG WHERE PG.\"Type\" = ?", model.getTipo());
 
-        return broker.getCollectionBean(FormaPagamento.class, "id");
-        
-    }
-    
-    public FormaPagamento obter(FormaPagamento model) {
+		return broker.getCollectionBean(FormaPagamento.class, "id");
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+	}
 
-        broker.setPropertySQL("formapagamentosapdao.obter", model.getId(), model.getTipo());
+	public FormaPagamento obter(FormaPagamento model) {
 
-        return (FormaPagamento) broker.getObjectBean(FormaPagamento.class, "id", "descricao");
-    }    
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+
+		broker.setPropertySQL("SELECT OPYM.PayMethCod ID, OPYM.Descript DESCRICAO FROM" + model.getEmpresa().getDbInstancia() + ".OPYM WHERE OPYM.PayMethCod = ? AND OPYM.[Type] = ?", model.getId(), model.getTipo());
+
+		return (FormaPagamento) broker.getObjectBean(FormaPagamento.class, "id", "descricao");
+	}   
 
 }

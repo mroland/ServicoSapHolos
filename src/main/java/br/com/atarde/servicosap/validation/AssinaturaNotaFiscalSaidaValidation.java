@@ -104,11 +104,11 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 					// colocar fixo para que nao impacte os sistemas legados de implementar
 					linha.setCodigoImposto(new CodigoImposto());
 
-					linha.getCodigoImposto().setId("5101-006");
+					//linha.getCodigoImposto().setId("5101-006");
 					
                     linha.setUtilizacao(new Utilizacao());
                     
-                    linha.getUtilizacao().setId(16L);					
+                    linha.getUtilizacao().setId(9L);					
 
 					linha.setCfop(new CFOP());
 

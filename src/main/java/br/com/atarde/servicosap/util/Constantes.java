@@ -17,7 +17,7 @@ public class Constantes {
     
     /* Conexoes */
     
-    public static final String JNDI_SABWEB = "java:comp/env/jdbc/SapWebJornalDS";    
+	public static final String JNDI_SABWEB = "java:comp/env/jdbc/SapWebHanaDS";
 
 	public static final String EMPRESA = "empresa";
 
@@ -233,6 +233,8 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_NOTAFISCAL_DATA_VENCIMENTO = "Favor inserir atributo dataVencimento do Objeto DocumentoAB. ";
 
 	public static final String OBJETO_OBRIGATORIO_NOTAFISCAL_DATA_CRIACAO = "Favor inserir atributo dataCriacao do Objeto DocumentoAB. ";
+	
+	public static final String OBJETO_OBRIGATORIO_NOTAFISCAL_FILIAL = "Favor inserir atributo filial.id do Objeto DocumentoAB válido. ";
 	
     public static final String DOCUMENTOEXPORTADO = "Documento ja existe na base Produção. Favor cancelar antes de exportar novamente.";
     

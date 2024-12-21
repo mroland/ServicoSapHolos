@@ -8,12 +8,12 @@ public class CfopDAO {
 
 	public CFOP obterPeloCodigo(CFOP model) {
 
-        TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
+		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-        broker.setPropertySQL("cfopdao.obterpelocodigo", model.getCodigo());
+		broker.setSQL("SELECT OCFP.\"Code\" CODE FROM " + model.getEmpresa().getDbInstancia() + ".OCFP WHERE OCFP.\"Code\" = ?", model.getCodigo());
 
-        return (CFOP) broker.getObjectBean(CFOP.class, "codigo");
-        
+		return (CFOP) broker.getObjectBean(CFOP.class, "codigo");
+
 	}
 
 }

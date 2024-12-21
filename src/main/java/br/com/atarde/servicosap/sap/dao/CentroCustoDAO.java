@@ -9,8 +9,8 @@ public class CentroCustoDAO {
 	public CentroCusto obter(CentroCusto model) {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
-		
-		broker.setPropertySQL("centrocustosapdao.obter", model.getDimensao().getId(), model.getId());
+
+		broker.setSQL("SELECT OOCR.\"OcrCode\" OCRCODE AS ID FROM " + model.getEmpresa().getDbInstancia() + ".OOCR WHERE OOCR.\"DimCode\" = ? AND OOCR.\"OcrCode\" = ?", model.getDimensao().getId(), model.getId());
 
 		return (CentroCusto) broker.getObjectBean(CentroCusto.class, "id");
 	}

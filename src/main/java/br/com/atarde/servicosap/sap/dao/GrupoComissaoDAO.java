@@ -10,7 +10,7 @@ public class GrupoComissaoDAO {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 		
-		broker.setPropertySQL("grupocomissaodao.obter", model.getId());
+		broker.setSQL("SELECT OCOG.\"GroupCode\" AS ID, OCOG.\"GroupName\" AS DESCRICAO FROM " + model.getEmpresa().getDbInstancia() + ".OCOG WHERE OCOG.\"GroupCode\" = ?", model.getId());
 	
 		return (GrupoComissao) broker.getObjectBean(GrupoComissao.class, "id", "descricao"); 
 		
