@@ -91,7 +91,7 @@ public class ExtratoBancarioSapDiApiDAO {
 
 			//model.setId(new Long(conexaoSapUtil.getCompany().getNewObjectCode().toString()));
 			
-			System.out.println(conexaoSapUtil.getCompany().getNewObjectCode().toString());
+			//System.out.println(conexaoSapUtil.getCompany().getNewObjectCode().toString());
 
 		}
 		

@@ -75,7 +75,7 @@ public class CentroCustoDiApiDAO {
 		
 		this.parametro = this.servico.addProfitCenter(centroCusto);
 		
-		System.out.println(this.parametro.getCenterCode());
+		//System.out.println(this.parametro.getCenterCode());
 		
 		if (TSUtil.isEmpty(this.parametro.getCenterCode())) {
 

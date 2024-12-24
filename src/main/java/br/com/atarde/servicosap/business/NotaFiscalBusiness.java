@@ -624,10 +624,10 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 			// Define que o XML será formatado com quebras de linha e indentação
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			System.out.println("Começo - XML de venda avulsa");
+			//System.out.println("Começo - XML de venda avulsa");
 			// Gera e imprime o XML no console (sysout)
 			marshaller.marshal(nota, System.out);
-			System.out.println("Termino - XML de venda avulsa");
+			//System.out.println("Termino - XML de venda avulsa");
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -784,10 +784,10 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 			// Define que o XML será formatado com quebras de linha e indentação
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			System.out.println("Começo - XML de assinatura");
+			//System.out.println("Começo - XML de assinatura");
 			// Gera e imprime o XML no console (sysout)
 			marshaller.marshal(nota, System.out);
-			System.out.println("Termino - XML de assinatura");
+			//System.out.println("Termino - XML de assinatura");
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
