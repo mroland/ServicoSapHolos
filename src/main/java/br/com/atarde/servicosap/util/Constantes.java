@@ -381,6 +381,6 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_CONDICAO_PAGAMENTO_QTD_PARCELAS = "favor requisitar a TI para inserir as parcelas em condicao pagamento no SAP.";
 	 
 
-
+	public static final String OBJETO_NOTAFISCAL_DATA_VENCIMENTO_MENOR_DATA_DOCUMENTO = "Data de vencimento não pode ser inferior a data de documento no Objeto DocumentoAB. ";
 
 }

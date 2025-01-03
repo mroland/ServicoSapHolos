@@ -163,6 +163,12 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 					}
 
 				} else {
+					
+					if(!TSUtil.isEmpty(model.getDataDocumento()) && model.getDataDocumento().after(model.getDataVencimento())) {
+						
+						retorno.append(Constantes.OBJETO_NOTAFISCAL_DATA_VENCIMENTO_MENOR_DATA_DOCUMENTO + "\n");
+						
+					}
 
 					model.setCondicaoPagamento(new CondicaoPagamento());
 
