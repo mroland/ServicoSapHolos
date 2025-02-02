@@ -7,11 +7,13 @@ import java.sql.Timestamp;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.FilialDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
+import br.com.atarde.servicosap.sap.dao.RegraDistribuicaoDAO;
 import br.com.atarde.servicosap.sap.dao.UtilizacaoDAO;
 import br.com.atarde.servicosap.sap.model.DocumentoAB;
 import br.com.atarde.servicosap.sap.model.DocumentoLinhaAB;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Filial;
+import br.com.atarde.servicosap.sap.model.RegraDistribuicao;
 import br.com.atarde.servicosap.sap.model.Utilizacao;
 import br.com.atarde.servicosap.util.Constantes;
 import br.com.atarde.servicosap.util.Utilitarios;
@@ -76,6 +78,12 @@ public class DocumentoValidationAB {
 			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 		} else {
+
+			if (TSUtil.isEmpty(model.getUnidadeNegocio()) || TSUtil.isEmpty(model.getUnidadeNegocio().getId()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao().getId()) || (!TSUtil.isEmpty(Utilitarios.tratarString(model.getUnidadeNegocio().getId())) && TSUtil.isEmpty(new RegraDistribuicaoDAO().obter(new RegraDistribuicao(model.getUnidadeNegocio().getId(), model.getEmpresa(), model.getUnidadeNegocio().getDimensao()))))) {
+
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_REGRA_DISTRIBUICAO_UNIDADE_NEGOCIO + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+			}
 
 			model.getItem().setEmpresa(model.getEmpresa());
 
