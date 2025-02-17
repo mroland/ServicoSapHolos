@@ -140,9 +140,9 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 					// linha.getCodigoImposto().setId("5101-006");
 
-					linha.setUtilizacao(new Utilizacao());
+					//linha.setUtilizacao(new Utilizacao());
 
-					linha.getUtilizacao().setId(9L);
+					//linha.getUtilizacao().setId(9L);
 
 					linha.setCfop(new CFOP());
 

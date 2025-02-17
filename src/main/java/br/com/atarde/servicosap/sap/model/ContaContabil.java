@@ -7,45 +7,46 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @SuppressWarnings("serial")
 @JsonInclude(Include.NON_NULL)
-public class ContaContabil implements Serializable{
-	
-    // tabela OACT
+public class ContaContabil implements Serializable {
 
-    private String id;
+	// tabela OACT
 
-    private String descricao;
-    
-    private Empresa empresa; 
-    
-    private OrigemExtrato origemExtrato;
-    
-    private Banco banco;    
-    
-    public ContaContabil(){
-    	
-    }
+	private String id;
 
-    public ContaContabil(String id) {
+	private String descricao;
 
-    	this.id = id;
-    	
+	private Empresa empresa;
+
+	private OrigemExtrato origemExtrato;
+
+	private Banco banco;
+
+	public ContaContabil() {
+
+	}
+
+	public ContaContabil(String id, Empresa empresa) {
+
+		this.id = id;
+		this.empresa = empresa;
+
 	}
 
 	public String getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
 	public Empresa getEmpresa() {
 		return empresa;
@@ -70,7 +71,5 @@ public class ContaContabil implements Serializable{
 	public void setBanco(Banco banco) {
 		this.banco = banco;
 	}
-    
-    
 
 }

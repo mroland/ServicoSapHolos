@@ -109,9 +109,9 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 					// linha.getCodigoImposto().setId("5101-006");
 
-					linha.setUtilizacao(new Utilizacao());
+					//linha.setUtilizacao(new Utilizacao());
 
-					linha.getUtilizacao().setId(9L);
+					//linha.getUtilizacao().setId(9L);
 
 					linha.setCfop(new CFOP());
 
@@ -169,17 +169,6 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 		}
 
-		if (!TSUtil.isEmpty(model.getContaContabil()) && (!TSUtil.isEmpty(Utilitarios.tratarString(model.getContaContabil().getId())))) {
-
-			model.getContaContabil().setEmpresa(model.getEmpresa());
-
-			if (TSUtil.isEmpty(new ContaContabilDAO().obter(model.getContaContabil()))) {
-
-				retorno.append(Constantes.OBJETO_OBRIGATORIO_CONTA_CONTABIL + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-			}
-
-		}
 
 		return retorno.toString();
 
