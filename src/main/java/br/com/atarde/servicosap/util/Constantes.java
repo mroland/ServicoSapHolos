@@ -383,4 +383,29 @@ public class Constantes {
 
 	public static final String OBJETO_OBRIGATORIO_REGRA_DISTRIBUICAO_UNIDADE_NEGOCIO = "Favor instanciar objeto unidadeNegocioModel ou unidadeNegocioModel.id invalido para dimensao desejada.";
 
+	public static final String TRANSFERENCIA_ESTOQUE = "Favor inserir objeto TransferenciaEstoque.";
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ID_EXTERNO = "Favor inserir atributo idExterno do Objeto TransferenciaEstoque. ";
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_OBSERVACAO_DIARIO_ID_EXTERNO = "Favor informar atributo observacaoDiario do Objeto TransferenciaEstoque com tamanho limite: 254 caracteres.";
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_ORIGEM = "Favor inserir objeto estoqueOrigem ou atributo estoqueOrigem.id do Objeto TransferenciaEstoque válido.";
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_DESTINO = "Favor inserir objeto estoqueDestino ou atributo estoqueDestino.id do Objeto TransferenciaEstoque válido.";
+
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ORIGEM = "favor inserir atributo origem em DocumentoAB";
+
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA = "Favor informar atributo linhas do objeto TransferenciaEstoque.";
+
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto TransferenciaEstoque válido.";
+
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto TransferenciaEstoque.";
+	
+	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.flagConsignado. ";
+	
+	public static final String OBJETO_SEQUENCIA_FATURA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.sequencia=28 quando consignado. ";
+
+	public static final Long SEQUENCIA_NFF_FATURA = 28L;
+
+	public static final Long UTILIZACAO_NFF_SAIDA_CONSIGNADO = 5L;
+
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 16(consignado) ";
+
+	public static final Integer FILIAL_JORNAL = 1;
 }

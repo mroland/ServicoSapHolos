@@ -180,11 +180,14 @@ public class ClassificadosContratoNotaFiscalSaidaValidation extends NotaFiscalSa
 
 			if (!TSUtil.isEmpty(nota.getLinhas()) || (!TSUtil.isEmpty(nota.getLinhas()) && nota.getLinhas().size() != 0)) {
 
+				int contador = 1;
 				for (ClassificadosContratoNotaFiscalSaidaLinha linha : nota.getLinhas()) {
 
 					linha.setEmpresa(model.getEmpresa());
 
-					retorno.append(this.validaLinhaNFF(linha, model.getFilial()));
+					retorno.append(this.validaLinhaNFF(linha, model.getFilial(), contador));
+
+					contador++;
 
 				}
 
@@ -200,13 +203,13 @@ public class ClassificadosContratoNotaFiscalSaidaValidation extends NotaFiscalSa
 
 	}
 
-	protected String validaLinhaNFF(ClassificadosContratoNotaFiscalSaidaLinha model, Filial filial) {
+	protected String validaLinhaNFF(ClassificadosContratoNotaFiscalSaidaLinha model, Filial filial, int contador) {
 
 		Categoria categoria;
 
 		StringBuilder retorno = new StringBuilder();
 
-		retorno.append(super.validaLinhaNFF(model, filial));
+		retorno.append(super.validaLinhaNFF(model, filial, contador));
 
 		if (TSUtil.isEmpty(model.getUCmXCol()) || (!TSUtil.isEmpty(model.getUCmXCol()) && model.getUCmXCol().length() > 10)) {
 

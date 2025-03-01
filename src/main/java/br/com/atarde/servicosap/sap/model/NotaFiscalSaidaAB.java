@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.FotografiaNotaFiscalSaida;
+import br.com.atarde.servicosap.model.TransferenciaEstoque;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 
 @SuppressWarnings("serial")
@@ -41,6 +42,8 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 	private BigDecimal percentualDesconto;
 	private PedidoVenda pedidoVenda;
 	private String observacao; // referente a comments
+
+	private TransferenciaEstoque transferenciaEstoqueReferencia;
 
 	public Vendedor getVendedor() {
 		return vendedor;
@@ -184,6 +187,14 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 
 	public void setParcelas(List<ParcelaAB> parcelas) {
 		this.parcelas = parcelas;
+	}
+
+	public TransferenciaEstoque getTransferenciaEstoqueReferencia() {
+		return transferenciaEstoqueReferencia;
+	}
+
+	public void setTransferenciaEstoqueReferencia(TransferenciaEstoque transferenciaEstoqueReferencia) {
+		this.transferenciaEstoqueReferencia = transferenciaEstoqueReferencia;
 	}
 
 }

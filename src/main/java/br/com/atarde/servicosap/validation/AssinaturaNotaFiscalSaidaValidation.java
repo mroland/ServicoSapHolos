@@ -99,6 +99,7 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 			if (!TSUtil.isEmpty(nota.getLinhas()) || (!TSUtil.isEmpty(nota.getLinhas()) && nota.getLinhas().size() != 0)) {
 
+				int contador=1;
 				for (AssinaturaNotaFiscalSaidaLinha linha : nota.getLinhas()) {
 
 					linha.setEmpresa(model.getEmpresa());
@@ -125,7 +126,9 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 					linha.setEstoque(new Estoque());
 
-					retorno.append(this.validaLinhaNFF(linha, model.getFilial()));
+					retorno.append(this.validaLinhaNFF(linha, model.getFilial(), contador));
+					
+					contador++;
 
 				}
 
@@ -141,11 +144,11 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 	}
 
-	protected String validaLinhaNFF(AssinaturaNotaFiscalSaidaLinha model, Filial filial) {
+	protected String validaLinhaNFF2(AssinaturaNotaFiscalSaidaLinha model, Filial filial, int contador) {
 
 		StringBuilder retorno = new StringBuilder();
 
-		retorno.append(super.validaLinhaNFF(model, filial));
+		retorno.append(super.validaLinhaNFF(model, filial, contador));
 
 		if (!TSUtil.isEmpty(model.getPedidoVendaLinha())) {
 

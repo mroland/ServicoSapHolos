@@ -22,6 +22,8 @@ import br.com.atarde.servicosap.sap.model.Status;
 @XmlRootElement
 public class VendaAvulsaNotaFiscalSaida extends NotaFiscalSaidaAB implements Serializable {
 
+	private Boolean flagConsignado;
+
 	private String uBanca;
 
 	private String uLote;
@@ -184,6 +186,14 @@ public class VendaAvulsaNotaFiscalSaida extends NotaFiscalSaidaAB implements Ser
 
 	public void setULote(String uLote) {
 		this.uLote = uLote;
+	}
+
+	public Boolean getFlagConsignado() {
+		return flagConsignado;
+	}
+
+	public void setFlagConsignado(Boolean flagConsignado) {
+		this.flagConsignado = flagConsignado;
 	}
 
 }

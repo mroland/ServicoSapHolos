@@ -83,6 +83,13 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 				retorno.append(Constantes.DOCUMENTOEXPORTADO + "\n");
 
 			} else {
+				
+				if(!TSUtil.isEmpty(model.getTransferenciaEstoqueReferencia())) {
+					
+					retorno.append(new TransferenciaEstoqueValidation().validar(model.getTransferenciaEstoqueReferencia()));
+
+				}
+				
 
 				if (TSUtil.isEmpty(model.getValor()) || model.getValor().compareTo(BigDecimal.ZERO)!=1 ) {
 
