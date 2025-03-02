@@ -1,14 +1,11 @@
 package br.com.atarde.servicosap.validation;
 
-import java.util.List;
-
 import br.com.atarde.servicosap.dao.EmpresaDAO;
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
 import br.com.atarde.servicosap.model.TransferenciaEstoqueLinha;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
 import br.com.atarde.servicosap.sap.dao.OrigemDAO;
-import br.com.atarde.servicosap.sap.model.Empresa;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Origem;
 import br.com.atarde.servicosap.util.Constantes;

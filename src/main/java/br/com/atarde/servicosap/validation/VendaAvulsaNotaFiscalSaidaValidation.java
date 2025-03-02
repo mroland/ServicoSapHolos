@@ -312,71 +312,79 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 		StringBuilder retorno = new StringBuilder();
 
-		if ((!TSUtil.isEmpty(Utilitarios.tratarString(model.getContaContabil().getId())) && TSUtil.isEmpty(new ContaContabilDAO().obter(new ContaContabil(model.getContaContabil().getId(), model.getEmpresa()))))) {
+		if (!TSUtil.isEmpty(flagConsignado) && !flagConsignado) {
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_CONTA_CONTABIL + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getUnidadeNegocio()) || TSUtil.isEmpty(model.getUnidadeNegocio().getId()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao().getId()) || (!TSUtil.isEmpty(Utilitarios.tratarString(model.getUnidadeNegocio().getId())) && TSUtil.isEmpty(new RegraDistribuicaoDAO().obter(new RegraDistribuicao(model.getUnidadeNegocio().getId(), model.getEmpresa(), model.getUnidadeNegocio().getDimensao()))))) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_REGRA_DISTRIBUICAO_UNIDADE_NEGOCIO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getItem()) || (TSUtil.isEmpty(model.getItem().getId()))) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
+			super.validaLinhaNFF(model, filial, contador);
 
 		} else {
 
-			model.getItem().setEmpresa(model.getEmpresa());
+			if ((!TSUtil.isEmpty(Utilitarios.tratarString(model.getContaContabil().getId())) && TSUtil.isEmpty(new ContaContabilDAO().obter(new ContaContabil(model.getContaContabil().getId(), model.getEmpresa()))))) {
 
-			model.setItem(new ItemDAO().obter(model.getItem()));
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_CONTA_CONTABIL + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-			if (TSUtil.isEmpty(model.getItem())) {
+			}
+
+			if (TSUtil.isEmpty(model.getUnidadeNegocio()) || TSUtil.isEmpty(model.getUnidadeNegocio().getId()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao()) || TSUtil.isEmpty(model.getUnidadeNegocio().getDimensao().getId()) || (!TSUtil.isEmpty(Utilitarios.tratarString(model.getUnidadeNegocio().getId())) && TSUtil.isEmpty(new RegraDistribuicaoDAO().obter(new RegraDistribuicao(model.getUnidadeNegocio().getId(), model.getEmpresa(), model.getUnidadeNegocio().getDimensao()))))) {
+
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_REGRA_DISTRIBUICAO_UNIDADE_NEGOCIO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+			}
+
+			if (TSUtil.isEmpty(model.getItem()) || (TSUtil.isEmpty(model.getItem().getId()))) {
 
 				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 			} else {
 
-				if (TSUtil.isEmpty(model.getEstoque()) || TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoque().getId(), model.getEmpresa())))) {
+				model.getItem().setEmpresa(model.getEmpresa());
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + " na linha " + contador + ". " + "\n");
+				model.setItem(new ItemDAO().obter(model.getItem()));
 
-				}
+				if (TSUtil.isEmpty(model.getItem())) {
 
-				if (!model.getItem().getFlagControleEstoque() && !model.getItem().getFlagItemVenda()) {
+					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO + " na linha " + contador + ". " + "\n");
+				} else {
+
+					if (TSUtil.isEmpty(model.getEstoque()) || TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoque().getId(), model.getEmpresa())))) {
+
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + " na linha " + contador + ". " + "\n");
+
+					}
+
+					if (!model.getItem().getFlagControleEstoque() && !model.getItem().getFlagItemVenda()) {
+
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO + " na linha " + contador + ". " + "\n");
+
+					}
 
 				}
 
 			}
 
-		}
+			if (TSUtil.isEmpty(model.getQuantidade()) || (model.getQuantidade() == 0)) {
 
-		if (TSUtil.isEmpty(model.getQuantidade()) || (model.getQuantidade() == 0)) {
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_QUANTIDADE + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_QUANTIDADE + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
+			}
 
-		}
+			if (TSUtil.isEmpty(model.getValor()) || model.getValor().setScale(2, RoundingMode.HALF_UP).compareTo(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)) != 1) {
 
-		if (TSUtil.isEmpty(model.getValor()) || model.getValor().setScale(2, RoundingMode.HALF_UP).compareTo(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)) != 1) {
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_VALOR + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_VALOR + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
+			}
 
-		}
+			if (TSUtil.isEmpty(model.getUtilizacao()) || TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) || (!TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) && TSUtil.isEmpty(new UtilizacaoDAO().obter(new Utilizacao(model.getUtilizacao().getId(), model.getEmpresa()))))) {
 
-		if (TSUtil.isEmpty(model.getUtilizacao()) || TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) || (!TSUtil.isEmpty(Utilitarios.tratarLong(model.getUtilizacao().getId())) && TSUtil.isEmpty(new UtilizacaoDAO().obter(new Utilizacao(model.getUtilizacao().getId(), model.getEmpresa()))))) {
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_UTILIZACAO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_UTILIZACAO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
+			} else {
 
-		} else {
+				if (Constantes.FILIAL_JORNAL.equals(filial.getId()) && !TSUtil.isEmpty(flagConsignado) && flagConsignado && !Constantes.UTILIZACAO_NFF_SAIDA_CONSIGNADO.equals(model.getUtilizacao().getId())) {
 
-			if (Constantes.FILIAL_JORNAL.equals(filial.getId()) && !TSUtil.isEmpty(flagConsignado) && flagConsignado && !Constantes.UTILIZACAO_NFF_SAIDA_CONSIGNADO.equals(model.getUtilizacao().getId())) {
+					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_CONSIGNADO + " na linha " + contador + ". " + "\n");
 
-				retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_CONSIGNADO + " na linha " + contador + ". " + "\n");
+				}
 
 			}
 

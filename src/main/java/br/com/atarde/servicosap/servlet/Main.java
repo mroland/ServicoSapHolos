@@ -1,36 +1,6 @@
 package br.com.atarde.servicosap.servlet;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
-import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaidaLinha;
-import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaidaParcela;
-import br.com.atarde.servicosap.sap.model.Classificacao;
-import br.com.atarde.servicosap.sap.model.CodigoImposto;
-import br.com.atarde.servicosap.sap.model.CondicaoPagamento;
-import br.com.atarde.servicosap.sap.model.ContaContabil;
-import br.com.atarde.servicosap.sap.model.Empresa;
-import br.com.atarde.servicosap.sap.model.Estado;
-import br.com.atarde.servicosap.sap.model.GrupoComissao;
-import br.com.atarde.servicosap.sap.model.IdentificadorFiscal;
-import br.com.atarde.servicosap.sap.model.Item;
-import br.com.atarde.servicosap.sap.model.Origem;
-import br.com.atarde.servicosap.sap.model.Pais;
-import br.com.atarde.servicosap.sap.model.ParceiroNegocio;
-import br.com.atarde.servicosap.sap.model.ParceiroNegocioEndereco;
-import br.com.atarde.servicosap.sap.model.ParcelaAB;
-import br.com.atarde.servicosap.sap.model.Sequencia;
-import br.com.atarde.servicosap.sap.model.Utilizacao;
-import br.com.atarde.servicosap.sap.model.Vendedor;
 
 public class Main {
 
