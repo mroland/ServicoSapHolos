@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
+import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.FotografiaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
@@ -18,7 +19,7 @@ import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 
 @SuppressWarnings("serial")
 @XmlRootElement
-@XmlSeeAlso({ AssinaturaNotaFiscalSaida.class, EasyclassNotaFiscalSaida.class, VendaAvulsaNotaFiscalSaida.class, FotografiaNotaFiscalSaida.class })
+@XmlSeeAlso({ AssinaturaNotaFiscalSaida.class, EasyclassNotaFiscalSaida.class, VendaAvulsaNotaFiscalSaida.class, FotografiaNotaFiscalSaida.class, DevolucaoNotaFiscalSaida.class })
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, // Identifica pelo nome da classe
 		include = JsonTypeInfo.As.PROPERTY, property = "@class" // Nome do campo pode ser customizado

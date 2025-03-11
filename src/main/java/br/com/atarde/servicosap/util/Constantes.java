@@ -175,7 +175,7 @@ public class Constantes {
 
 	/* Nota Fiscal Saida */
 
-	public static final String NOTAFISCALSAIDA = "Favor inserir objeto NotaFiscalSaida.";
+	public static final String NOTAFISCALSAIDA_DEVOLUCAONOTAFISCALSAIDA = "Favor inserir objeto NotaFiscalSaida ou DevolucaoNotaFiscalSaida.";
 
 	public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_OBSERVACAO = "favor informar atributo observacao do Objeto NotaFiscalSaida com tamanho limite: 254 caracteres.";
 
@@ -389,6 +389,8 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_ORIGEM = "Favor inserir objeto estoqueOrigem ou atributo estoqueOrigem.id do Objeto TransferenciaEstoque válido.";
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_DESTINO = "Favor inserir objeto estoqueDestino ou atributo estoqueDestino.id do Objeto TransferenciaEstoque válido.";
 
+	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_IGUAL = "Favor inserir atributo estoqueOrigem.id e atributo estoqueDestino.id diferentes para o Objeto TransferenciaEstoque válido ";
+	
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ORIGEM = "favor inserir atributo origem em DocumentoAB";
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA = "Favor informar atributo linhas do objeto TransferenciaEstoque.";
@@ -403,9 +405,20 @@ public class Constantes {
 
 	public static final Long SEQUENCIA_NFF_FATURA = 28L;
 
-	public static final Long UTILIZACAO_NFF_SAIDA_CONSIGNADO = 5L;
+	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO = 5L;
+	
+	public static final Long UTILIZACAO_NFF_SAIDA_RETORNO_CONSIGNADO = 16L;
+	
+	public static final String DEPOSITO_SEM_ESTOQUE = "199";
 
-	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 16(consignado) ";
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 5(remessa consignado) ";
+	
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_DEPOSITO_CONSIGNADO = "favor inserir atributo estoque.id=199 do Objeto DocumentoLinhaAB quando consignado";
+	
+	public static final String OBJETO_DEVOLUCAONOTAFISCALSAIDA_LINHA_UTILIZACAO_RETORNO_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 16(retorno consignado) ";
 
 	public static final Integer FILIAL_JORNAL = 1;
+
+	public static final String AVISO_NOTA_FISCAL_CONSIGNADA_OBRIGATORIO = "Favor inserir uma nota fiscal consignada antes de inserir uma devolucao de nota fiscal consignada. ";
+	
 }

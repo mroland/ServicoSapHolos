@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
+import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
+import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.sap.dao.CondicaoPagamentoDAO;
 import br.com.atarde.servicosap.sap.dao.NotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.sap.dao.SequenciaDAO;
@@ -23,7 +25,7 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 
 		if (TSUtil.isEmpty(model)) {
 
-			retorno.append(Constantes.NOTAFISCALSAIDA + "\n");
+			retorno.append(Constantes.NOTAFISCALSAIDA_DEVOLUCAONOTAFISCALSAIDA + "\n");
 
 		} else {
 
@@ -71,27 +73,40 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 	private String validaNFF(NotaFiscalSaidaAB model) {
 
 		StringBuilder retorno = new StringBuilder();
-		
-		if(TSUtil.isEmpty(model.getIdExterno())){
-			
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_ID_EXTERNO + Constantes.CAMPO_OBRIGATORIO + "\n");
-			
-		}else{
-			
-			if (!TSUtil.isEmpty(new NotaFiscalSaidaDAO().obterIdExterno(model))) {
 
-				retorno.append(Constantes.DOCUMENTOEXPORTADO + "\n");
+		if (TSUtil.isEmpty(model.getIdExterno())) {
+
+			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_ID_EXTERNO + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+		} else {
+
+			if (model instanceof DevolucaoNotaFiscalSaida) {
+
+				if (!TSUtil.isEmpty(new DevolucaoNotaFiscalSaidaDAO().obterIdExterno(model))) {
+
+					retorno.append(Constantes.DOCUMENTOEXPORTADO + "\n");
+
+				}
 
 			} else {
-				
-				if(!TSUtil.isEmpty(model.getTransferenciaEstoqueReferencia())) {
-					
+
+				if (!TSUtil.isEmpty(new NotaFiscalSaidaDAO().obterIdExterno(model))) {
+
+					retorno.append(Constantes.DOCUMENTOEXPORTADO + "\n");
+
+				}
+
+			}
+
+			if (TSUtil.isEmpty(retorno.toString())) {
+
+				if (!TSUtil.isEmpty(model.getTransferenciaEstoqueReferencia())) {
+
 					retorno.append(new TransferenciaEstoqueValidation().validar(model.getTransferenciaEstoqueReferencia()));
 
 				}
-				
 
-				if (TSUtil.isEmpty(model.getValor()) || model.getValor().compareTo(BigDecimal.ZERO)!=1 ) {
+				if (TSUtil.isEmpty(model.getValor()) || model.getValor().compareTo(BigDecimal.ZERO) != 1) {
 
 					retorno.append(Constantes.OBJETO_OBRIGATORIO_DOCUMENTOAB_VALOR + Constantes.CAMPO_OBRIGATORIO + "\n");
 
@@ -106,75 +121,73 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 					} else {
 
 						model.getCondicaoPagamento().setEmpresa(model.getEmpresa());
-						
+
 						CondicaoPagamento cond = new CondicaoPagamentoDAO().obter(model.getCondicaoPagamento());
 
 						if (TSUtil.isEmpty(cond)) {
 
 							retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_CONDICAO_PAGAMENTO_DATA_VENCIMENTO + Constantes.CAMPO_OBRIGATORIO + "\n");
 
-						}else{
-							
-							if(!TSUtil.isEmpty(model.getParcelas())){
-								
-								if(TSUtil.isEmpty(cond.getQuantidadeParcelas())){
-									
+						} else {
+
+							if (!TSUtil.isEmpty(model.getParcelas())) {
+
+								if (TSUtil.isEmpty(cond.getQuantidadeParcelas())) {
+
 									model.setParcelas(null);
-									
-								}else{
-									
-									if(model.getParcelas().size()!=cond.getQuantidadeParcelas()){
-										
+
+								} else {
+
+									if (model.getParcelas().size() != cond.getQuantidadeParcelas()) {
+
 										retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_QTD_PARCELAS + Constantes.CAMPO_OBRIGATORIO + "\n");
-										
-									}else{
-										
+
+									} else {
+
 										BigDecimal valor = BigDecimal.ZERO;
-										
+
 										for (ParcelaAB p : model.getParcelas()) {
-											
-											if(TSUtil.isEmpty(p.getDataVencimento()) || (!TSUtil.isEmpty(model.getDataVencimento()) && model.getDataVencimento().before(new Date()) )){
-												
+
+											if (TSUtil.isEmpty(p.getDataVencimento()) || (!TSUtil.isEmpty(model.getDataVencimento()) && model.getDataVencimento().before(new Date()))) {
+
 												retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_DATA_VENCIMENTO + Constantes.CAMPO_OBRIGATORIO + "\n");
-												
+
 											}
-											
-											if(TSUtil.isEmpty(p.getValor()) || (!TSUtil.isEmpty(p.getValor()) && p.getValor().compareTo(BigDecimal.ZERO)<=0)){
-												
+
+											if (TSUtil.isEmpty(p.getValor()) || (!TSUtil.isEmpty(p.getValor()) && p.getValor().compareTo(BigDecimal.ZERO) <= 0)) {
+
 												retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_VALOR + Constantes.CAMPO_OBRIGATORIO + "\n");
-												
-											}else{
-												
+
+											} else {
+
 												valor = valor.add(p.getValor());
-												
+
 											}
-											
+
 										}
-										
-										
-										if(model.getValor().setScale(2,RoundingMode.HALF_UP).compareTo(valor.setScale(2,RoundingMode.HALF_UP))!=0){
-											
+
+										if (model.getValor().setScale(2, RoundingMode.HALF_UP).compareTo(valor.setScale(2, RoundingMode.HALF_UP)) != 0) {
+
 											retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_VALOR_PARCELAS + Constantes.CAMPO_OBRIGATORIO + "\n");
-											
+
 										}
-										
+
 									}
-									
+
 								}
-								
 
 							}
-							
+
 						}
-						
+
 					}
 
 				} else {
-					
-					if(!TSUtil.isEmpty(model.getDataDocumento()) && model.getDataDocumento().after(model.getDataVencimento())) {
-						
+
+					if (!TSUtil.isEmpty(model.getDataDocumento()) && model.getDataDocumento().after(model.getDataVencimento())) {
+
 						retorno.append(Constantes.OBJETO_NOTAFISCAL_DATA_VENCIMENTO_MENOR_DATA_DOCUMENTO + "\n");
-						
+
 					}
 
 					model.setCondicaoPagamento(new CondicaoPagamento());
@@ -203,13 +216,12 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 
 				}
 
-			}			
-			
+			}
+
 		}
 
 		return retorno.toString();
 
 	}
-
 
 }

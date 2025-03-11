@@ -21,6 +21,8 @@ public class TransferenciaEstoque extends DocumentoAB implements Serializable {
 
 	private NotaFiscalSaida notaFiscalSaidaReferenciada;
 
+	private DevolucaoNotaFiscalSaida devolucaoNotaFiscalSaidaReferenciada;
+
 	private Origem origem;
 
 	private List<TransferenciaEstoqueLinha> linhas;
@@ -105,6 +107,14 @@ public class TransferenciaEstoque extends DocumentoAB implements Serializable {
 
 	public void setNotaFiscalSaidaReferenciada(NotaFiscalSaida notaFiscalSaidaReferenciada) {
 		this.notaFiscalSaidaReferenciada = notaFiscalSaidaReferenciada;
+	}
+
+	public DevolucaoNotaFiscalSaida getDevolucaoNotaFiscalSaidaReferenciada() {
+		return devolucaoNotaFiscalSaidaReferenciada;
+	}
+
+	public void setDevolucaoNotaFiscalSaidaReferenciada(DevolucaoNotaFiscalSaida devolucaoNotaFiscalSaidaReferenciada) {
+		this.devolucaoNotaFiscalSaidaReferenciada = devolucaoNotaFiscalSaidaReferenciada;
 	}
 
 }
