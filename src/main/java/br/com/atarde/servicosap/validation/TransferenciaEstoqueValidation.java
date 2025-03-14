@@ -126,24 +126,6 @@ public class TransferenciaEstoqueValidation extends DocumentoValidationAB {
 
 		}
 
-		if (TSUtil.isEmpty(model.getEstoqueOrigem()) || (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoqueOrigem().getId(), model.getEmpresa()))))) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_ORIGEM + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getEstoqueDestino()) || (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoqueDestino().getId(), model.getEmpresa()))))) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_DESTINO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-		
-		if (!TSUtil.isEmpty(model.getEstoqueDestino()) && !TSUtil.isEmpty(model.getEstoqueOrigem()) && model.getEstoqueOrigem().getId().equals(model.getEstoqueDestino().getId())) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_IGUAL + " na linha " + contador + ". " + "\n");
-
-		}
-
 		return retorno.toString();
 
 	}
