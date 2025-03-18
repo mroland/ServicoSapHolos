@@ -9,7 +9,6 @@ import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaidaLinha;
 import br.com.atarde.servicosap.sap.dao.ContaContabilDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
-import br.com.atarde.servicosap.sap.dao.NotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.sap.dao.RegraDistribuicaoDAO;
 import br.com.atarde.servicosap.sap.dao.UtilizacaoDAO;
 import br.com.atarde.servicosap.sap.model.CFOP;

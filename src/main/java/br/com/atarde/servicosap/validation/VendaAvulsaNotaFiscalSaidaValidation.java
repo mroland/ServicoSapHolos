@@ -30,7 +30,7 @@ import br.com.topsys.util.TSUtil;
 public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidation {
 
 	public String validar(VendaAvulsaNotaFiscalSaida model) {
-
+		
 		StringBuilder retorno = new StringBuilder();
 
 		retorno.append(super.validar(model));
