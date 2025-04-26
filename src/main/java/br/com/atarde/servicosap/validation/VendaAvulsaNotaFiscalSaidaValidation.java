@@ -2,11 +2,14 @@ package br.com.atarde.servicosap.validation;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import br.com.atarde.servicosap.dao.VendaAvulsaNotaFiscalSaidaDAO;
+import br.com.atarde.servicosap.model.TabelaUsuarioMovimentacao;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaidaLinha;
-import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaidaRomaneio;
 import br.com.atarde.servicosap.sap.dao.ContaContabilDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
@@ -30,7 +33,7 @@ import br.com.topsys.util.TSUtil;
 public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidation {
 
 	public String validar(VendaAvulsaNotaFiscalSaida model) {
-		
+
 		StringBuilder retorno = new StringBuilder();
 
 		retorno.append(super.validar(model));
@@ -70,6 +73,12 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 				if (Constantes.FILIAL_JORNAL.equals(nota.getFilial().getId()) && nota.getFlagConsignado() && !TSUtil.isEmpty(model.getSequencia()) && !Constantes.SEQUENCIA_NFF_FATURA.equals(model.getSequencia().getId())) {
 
 					retorno.append(Constantes.OBJETO_SEQUENCIA_FATURA_FLAG_CONSIGNADO + "\n");
+
+				}
+
+				if (!nota.getFlagConsignado() && (TSUtil.isEmpty(nota.getMovimentacoes()) || nota.getMovimentacoes().size() == 0)) {
+
+					retorno.append(Constantes.OBJETO_OBRIGATORIO_NFF_SAIDA_MOVIMENTACOES + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 				}
 
@@ -184,21 +193,21 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 				}
 
+				if (TSUtil.isEmpty(retorno.toString())) {
+
+					retorno.append(new TabelaUsuarioMovimentacaoValidation().validarVenda(nota.getMovimentacoes()));
+
+				}
+
+				if (TSUtil.isEmpty(retorno.toString())) {
+
+					retorno.append(this.validaMovimentacoes(nota.getLinhas(), nota.getMovimentacoes()));
+
+				}
+
 			} else {
 
 				retorno.append(Constantes.OBJETO_OBRIGATORIO_LISTA_DOCUMENTOAB_LINHA + "\n");
-
-			}
-
-			if (!TSUtil.isEmpty(nota.getRomaneios()) || (!TSUtil.isEmpty(nota.getRomaneios()) && nota.getRomaneios().size() != 0)) {
-
-				for (VendaAvulsaNotaFiscalSaidaRomaneio romaneio : nota.getRomaneios()) {
-
-					romaneio.setEmpresa(model.getEmpresa());
-
-					retorno.append(this.validaRomaneio(romaneio));
-
-				}
 
 			}
 
@@ -208,99 +217,69 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 	}
 
-	private String validaRomaneio(VendaAvulsaNotaFiscalSaidaRomaneio model) {
+	private String validaMovimentacoes(List<VendaAvulsaNotaFiscalSaidaLinha> linhas, List<TabelaUsuarioMovimentacao> movimentacoes) {
 
 		StringBuilder retorno = new StringBuilder();
 
-		if (TSUtil.isEmpty(model.getIdExterno()) || (!TSUtil.isEmpty(model.getIdExterno()) && model.getIdExterno().length() > 100)) {
+		Map<String, Double> mapaLinha = new HashMap<String, Double>();
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_ID_EXTERNO + Constantes.CAMPO_OBRIGATORIO + "\n");
+		for (VendaAvulsaNotaFiscalSaidaLinha item : linhas) {
 
-		} else {
+			if (!mapaLinha.containsKey(item.getItem().getId())) {
 
-			model.setIdExterno(model.getIdExterno().trim());
+				mapaLinha.put(item.getItem().getId(), item.getQuantidade());
 
-		}
+			} else {
 
-		if (TSUtil.isEmpty(model.getRoteiro()) || (!TSUtil.isEmpty(model.getRoteiro()) && model.getRoteiro().length() > 50)) {
+				mapaLinha.put(item.getItem().getId(), mapaLinha.get(item.getItem().getId()) + item.getQuantidade());
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_ROTEIRO + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		} else {
-
-			model.setRoteiro(model.getRoteiro().trim());
+			}
 
 		}
 
-		if (TSUtil.isEmpty(model.getDescricao()) || (!TSUtil.isEmpty(model.getDescricao()) && model.getDescricao().length() > 100)) {
+		Map<String, Double> mapaMovimentacao = new HashMap<String, Double>();
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_DESCRICAO + Constantes.CAMPO_OBRIGATORIO + "\n");
+		for (TabelaUsuarioMovimentacao item : movimentacoes) {
 
-		} else {
+			if (!mapaMovimentacao.containsKey(item.getItem().getId())) {
 
-			model.setDescricao(model.getDescricao().trim());
+				mapaMovimentacao.put(item.getItem().getId(), item.getQuantidade());
 
-		}
+			} else {
 
-		if (TSUtil.isEmpty(model.getData())) {
+				mapaMovimentacao.put(item.getItem().getId(), mapaMovimentacao.get(item.getItem().getId()) + item.getQuantidade());
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_DATA + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getReparte())) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_REPARTE + Constantes.CAMPO_OBRIGATORIO + "\n");
+			}
 
 		}
 
-		if (TSUtil.isEmpty(model.getEncalhe())) {
+		retorno.append(this.validarMovimentacoes(mapaLinha, mapaMovimentacao));
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_ENCALHE + Constantes.CAMPO_OBRIGATORIO + "\n");
+		retorno.append(this.validarMovimentacoes(mapaMovimentacao, mapaLinha));
 
-		}
+		return retorno.toString();
 
-		if (TSUtil.isEmpty(model.getVenda())) {
+	}
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_VENDA + Constantes.CAMPO_OBRIGATORIO + "\n");
+	private String validarMovimentacoes(Map<String, Double> mapaOrigem, Map<String, Double> mapaDestino) {
 
-		}
+		StringBuilder retorno = new StringBuilder();
 
-		if (TSUtil.isEmpty(model.getPreco())) {
+		for (Map.Entry<String, Double> entry : mapaOrigem.entrySet()) {
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_PRECO + Constantes.CAMPO_OBRIGATORIO + "\n");
+			if (!mapaDestino.containsKey(entry.getKey())) {
 
-		}
+				retorno.append("Favor inserir em nota.movimentações e nota.linhas o item.id " + entry.getKey() +  ". \n");
 
-		if (TSUtil.isEmpty(model.getValor())) {
+			} else {
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_VALOR + Constantes.CAMPO_OBRIGATORIO + "\n");
+				if (mapaDestino.get(entry.getKey()).doubleValue() != entry.getValue().doubleValue()) {
 
-		}
+					retorno.append("Favor inserir a mesma quantidade do item.id " + entry.getKey() + " tanto para nota.movimentações quanto para nota.linhas" + ". \n");
 
-		if (TSUtil.isEmpty(model.getRdj()) || (!TSUtil.isEmpty(model.getRdj()) && model.getRdj().length() > 50)) {
+				}
 
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_RDJ + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		} else {
-
-			model.setRdj(model.getRdj().trim());
-
-		}
-
-		if (TSUtil.isEmpty(model.getRegiao()) || (!TSUtil.isEmpty(model.getRegiao()) && model.getRegiao().length() > 1)) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_REGIAO + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		}
-
-		if (TSUtil.isEmpty(model.getCidade()) || (!TSUtil.isEmpty(model.getCidade()) && model.getCidade().length() > 50)) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_ROMANEIO_CIDADE + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		} else {
-
-			model.setCidade(model.getCidade().trim());
+			}
 
 		}
 

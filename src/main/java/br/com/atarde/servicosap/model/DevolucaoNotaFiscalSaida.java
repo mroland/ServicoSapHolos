@@ -26,6 +26,8 @@ public class DevolucaoNotaFiscalSaida extends NotaFiscalSaidaAB implements Seria
 
 	private List<DevolucaoNotaFiscalSaidaLinha> linhas;
 
+	private List<DevolucaoNotaFiscalSaidaMovimentacao> movimentacoes;
+
 	public DevolucaoNotaFiscalSaida() {
 
 	}
@@ -76,6 +78,14 @@ public class DevolucaoNotaFiscalSaida extends NotaFiscalSaidaAB implements Seria
 
 	public void setLinhas(List<DevolucaoNotaFiscalSaidaLinha> linhas) {
 		this.linhas = linhas;
+	}
+
+	public List<DevolucaoNotaFiscalSaidaMovimentacao> getMovimentacoes() {
+		return movimentacoes;
+	}
+
+	public void setMovimentacoes(List<DevolucaoNotaFiscalSaidaMovimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
 	}
 
 }

@@ -2,7 +2,6 @@ package br.com.atarde.servicosap.dao;
 
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaidaLinha;
-import br.com.atarde.servicosap.sap.model.NotaFiscalSaida;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.topsys.database.TSDataBaseBrokerIf;
 import br.com.topsys.database.factory.TSDataBaseBrokerFactory;

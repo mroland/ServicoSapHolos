@@ -1,6 +1,5 @@
 package br.com.atarde.servicosap.business;
 
-import br.com.atarde.servicosap.sap.model.Empresa;
 import br.com.topsys.exception.TSApplicationException;
 
 public abstract class MainBusiness<T> {
@@ -23,32 +22,9 @@ public abstract class MainBusiness<T> {
 
 	}
 
-	public T insertEvent(T model) throws TSApplicationException {
-
-		String retorno;
-
-		retorno = this.validar(model);
-
-		if ("".equals(retorno)) {
-
-			return this.inserir(model);
-
-		} else {
-
-			return model;
-
-		}
-
-	}
-	
-	public abstract T inserir(T model) ;
-
 	public abstract String validar(T model);
 	
 	public abstract T inserirLote(T model) throws TSApplicationException;
 	
-	public abstract void inserirSAP(Empresa empresa) ;
-	
-	public abstract void alterarStatusInterface()  throws TSApplicationException ;
 
 }

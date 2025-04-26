@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.atarde.servicosap.business.NotaFiscalBusiness;
-import br.com.atarde.servicosap.model.TesteModel;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.util.TokenService;
 import br.com.topsys.exception.TSApplicationException;
@@ -57,36 +56,6 @@ public class NotaFiscalSaidaWS {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("Token ausente").build();
 
 		}
-
-	}
-
-	public Response inserirTeste(TesteModel model) {
-
-		model.setId(5L);
-
-		model.setDescricao("testando retorno");
-
-		return Response.ok(model).build();
-
-	}
-
-	public Response inserir(NotaFiscalSaidaAB model) {
-
-		try {
-
-			NotaFiscalSaidaAB conta = new NotaFiscalBusiness().insertEvent(model);
-
-			return Response.ok(conta).build();
-
-		} catch (TSApplicationException e) {
-
-			e.printStackTrace();
-
-			model.setMensagemErro(e.getMessage());
-
-		}
-
-		return Response.ok(model).build();
 
 	}
 

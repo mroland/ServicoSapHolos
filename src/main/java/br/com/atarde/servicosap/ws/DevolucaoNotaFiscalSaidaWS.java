@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.atarde.servicosap.business.DevolucaoNotaFiscalSaidaBusiness;
-import br.com.atarde.servicosap.business.NotaFiscalBusiness;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.TesteModel;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
@@ -67,26 +66,6 @@ public class DevolucaoNotaFiscalSaidaWS {
 		model.setId(5L);
 
 		model.setDescricao("testando retorno");
-
-		return Response.ok(model).build();
-
-	}
-
-	public Response inserir(NotaFiscalSaidaAB model) {
-
-		try {
-
-			NotaFiscalSaidaAB conta = new NotaFiscalBusiness().insertEvent(model);
-
-			return Response.ok(conta).build();
-
-		} catch (TSApplicationException e) {
-
-			e.printStackTrace();
-
-			model.setMensagemErro(e.getMessage());
-
-		}
 
 		return Response.ok(model).build();
 

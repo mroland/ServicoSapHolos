@@ -27,6 +27,42 @@ public class DocumentoValidationAB {
 
 		StringBuilder retorno = new StringBuilder();
 
+		retorno.append(this.validarFilial(model));
+
+		retorno.append(this.validarDocumento(model));
+
+		return retorno.toString();
+
+	}
+
+	public String validarFilial(DocumentoAB model) {
+
+		StringBuilder retorno = new StringBuilder();
+
+		if (TSUtil.isEmpty(model.getFilial()) || TSUtil.isEmpty(model.getFilial().getId())) {
+
+			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_FILIAL + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+		} else {
+
+			model.getFilial().setEmpresa(model.getEmpresa());
+
+			if (TSUtil.isEmpty(new FilialDAO().obter(model.getFilial()))) {
+
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_FILIAL + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+			}
+
+		}
+
+		return retorno.toString();
+
+	}
+
+	public String validarDocumento(DocumentoAB model) {
+
+		StringBuilder retorno = new StringBuilder();
+
 		if (TSUtil.isEmpty(model.getDataLancamento())) {
 
 			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_DATA_LANCAMENTO + Constantes.CAMPO_OBRIGATORIO + "\n");
@@ -48,22 +84,6 @@ public class DocumentoValidationAB {
 		if (TSUtil.isEmpty(model.getDataExportacao())) {
 
 			model.setDataExportacao(new Timestamp(System.currentTimeMillis()));
-
-		}
-
-		if (TSUtil.isEmpty(model.getFilial()) || TSUtil.isEmpty(model.getFilial().getId())) {
-
-			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_FILIAL + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-		} else {
-
-			model.getFilial().setEmpresa(model.getEmpresa());
-
-			if (TSUtil.isEmpty(new FilialDAO().obter(model.getFilial()))) {
-
-				retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_FILIAL + Constantes.CAMPO_OBRIGATORIO + "\n");
-
-			}
 
 		}
 

@@ -390,7 +390,7 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_DESTINO = "Favor inserir objeto estoqueDestino ou atributo estoqueDestino.id do Objeto TransferenciaEstoque válido.";
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_IGUAL = "Favor inserir atributo estoqueOrigem.id e atributo estoqueDestino.id diferentes para o Objeto TransferenciaEstoque válido ";
-	
+
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ORIGEM = "favor inserir atributo origem em DocumentoAB";
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA = "Favor informar atributo linhas do objeto TransferenciaEstoque.";
@@ -398,27 +398,37 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto TransferenciaEstoque válido.";
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto TransferenciaEstoque.";
-	
+
 	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.flagConsignado. ";
-	
+
 	public static final String OBJETO_SEQUENCIA_FATURA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.sequencia=28 quando consignado. ";
 
 	public static final Long SEQUENCIA_NFF_FATURA = 28L;
 
 	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO = 5L;
-	
+
 	public static final Long UTILIZACAO_NFF_SAIDA_RETORNO_CONSIGNADO = 16L;
-	
+
 	public static final String DEPOSITO_SEM_ESTOQUE = "199";
 
 	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 5(remessa consignado) ";
-	
+
 	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_DEPOSITO_CONSIGNADO = "favor inserir atributo estoque.id=199 do Objeto DocumentoLinhaAB quando consignado";
-	
+
 	public static final String OBJETO_DEVOLUCAONOTAFISCALSAIDA_LINHA_UTILIZACAO_RETORNO_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 16(retorno consignado) ";
 
 	public static final Integer FILIAL_JORNAL = 1;
 
 	public static final String AVISO_NOTA_FISCAL_CONSIGNADA_OBRIGATORIO = "Favor inserir uma nota fiscal consignada antes de inserir uma devolucao de nota fiscal consignada. ";
-	
+
+	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_MOVIMENTACOES = "favor inserir atributo notaFiscalSaida.movimentações. ";
+
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto MovimentacaoVendaAvulsa válido.";
+
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto MovimentacaoVendaAvulsa.";
+
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_ID_EXTERNO = "Favor inserir atributo idExterno do Objeto MovimentacaoVendaAvulsa. ";
+
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_TIPO_MOVIMENTACAO = "Favor inserir atributo tipoMovimentacao do Objeto MovimentacaoVendaAvulsa. ";
+
 }

@@ -6,9 +6,9 @@ package br.com.atarde.servicosap.dao;
 
 import java.util.List;
 
+import br.com.atarde.servicosap.model.TabelaUsuarioMovimentacao;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaidaLinha;
-import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaidaRomaneio;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaida;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaLinhaAB;
 import br.com.topsys.database.TSDataBaseBrokerIf;
@@ -47,25 +47,23 @@ public class VendaAvulsaNotaFiscalSaidaDAO {
 
 		}
 
-		if (!TSUtil.isEmpty(model.getRomaneios()) && model.getRomaneios().size() != 0) {
-
-			for (VendaAvulsaNotaFiscalSaidaRomaneio romaneio : model.getRomaneios()) {
-
-				romaneio.setEmpresa(model.getEmpresa());
-
-				romaneio.setNota(new VendaAvulsaNotaFiscalSaida("interfaceId", model.getInterfaceId()));
-
-				new VendaAvulsaNotaFiscalSaidaRomaneioDAO().inserirInterface(romaneio, broker);
-
-			}
-
-		}
-
 		if (!TSUtil.isEmpty(model.getTransferenciaEstoqueReferencia())) {
 
 			model.getTransferenciaEstoqueReferencia().setNotaFiscalSaidaReferenciada(new NotaFiscalSaida(model.getInterfaceId()));
 
 			new TransferenciaEstoqueDAO().inserirInterface(model.getTransferenciaEstoqueReferencia(), broker);
+
+		}
+
+		if (!TSUtil.isEmpty(model.getMovimentacoes())) {
+
+			for (TabelaUsuarioMovimentacao item : model.getMovimentacoes()) {
+
+				item.setNotaFiscalSaidaReferenciada(new NotaFiscalSaida(model.getInterfaceId()));
+
+				new TabelaUsuarioMovimentacaoDAO().inserirInterface(item, broker);
+
+			}
 
 		}
 
