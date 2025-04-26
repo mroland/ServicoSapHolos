@@ -1,5 +1,7 @@
 package br.com.atarde.servicosap.business;
 
+import com.google.gson.Gson;
+
 import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.sap.model.Status;
@@ -13,6 +15,8 @@ public class DevolucaoNotaFiscalSaidaBusiness extends MainBusiness<DevolucaoNota
 	public String validar(DevolucaoNotaFiscalSaida model) {
 
 		StringBuilder retorno = new StringBuilder();
+		
+		model.setArquivoRemessa(new Gson().toJson(model));
 
 		retorno.append(new DevolucaoNotaFiscalSaidaValidation().validar(model));
 

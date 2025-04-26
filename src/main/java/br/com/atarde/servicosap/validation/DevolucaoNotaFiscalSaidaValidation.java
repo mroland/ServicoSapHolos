@@ -2,10 +2,14 @@ package br.com.atarde.servicosap.validation;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaidaLinha;
+import br.com.atarde.servicosap.model.TabelaUsuarioMovimentacao;
 import br.com.atarde.servicosap.sap.dao.ContaContabilDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
@@ -70,14 +74,13 @@ public class DevolucaoNotaFiscalSaidaValidation extends NotaFiscalSaidaValidatio
 						retorno.append(Constantes.OBJETO_SEQUENCIA_FATURA_FLAG_CONSIGNADO + "\n");
 
 					}
-/*
- *verificar se a regra sera mesmo o mesmo idExterno
-					if (TSUtil.isEmpty(new NotaFiscalSaidaDAO().obterIdExterno(model))) {
+					
+					if (nota.getFlagConsignado() && (TSUtil.isEmpty(nota.getMovimentacoes()) || nota.getMovimentacoes().size() == 0)) {
 
-						retorno.append(Constantes.AVISO_NOTA_FISCAL_CONSIGNADA_OBRIGATORIO + Constantes.CAMPO_OBRIGATORIO + "\n");
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NFF_SAIDA_MOVIMENTACOES + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 					}
-*/
+					
 				}
 
 			}
@@ -123,10 +126,92 @@ public class DevolucaoNotaFiscalSaidaValidation extends NotaFiscalSaidaValidatio
 					contador++;
 
 				}
+				
+				if (TSUtil.isEmpty(retorno.toString())) {
+
+					retorno.append(new TabelaUsuarioMovimentacaoValidation().validarVenda(nota.getMovimentacoes(), "R"));
+
+				}
+
+				if (TSUtil.isEmpty(retorno.toString())) {
+
+					retorno.append(this.validaMovimentacoes(nota.getLinhas(), nota.getMovimentacoes()));
+
+				}
 
 			} else {
 
 				retorno.append(Constantes.OBJETO_OBRIGATORIO_LISTA_DOCUMENTOAB_LINHA + "\n");
+
+			}
+
+		}
+
+		return retorno.toString();
+
+	}
+	
+	private String validaMovimentacoes(List<DevolucaoNotaFiscalSaidaLinha> linhas, List<TabelaUsuarioMovimentacao> movimentacoes) {
+
+		StringBuilder retorno = new StringBuilder();
+
+		Map<String, Double> mapaLinha = new HashMap<String, Double>();
+
+		for (DevolucaoNotaFiscalSaidaLinha item : linhas) {
+
+			if (!mapaLinha.containsKey(item.getItem().getId())) {
+
+				mapaLinha.put(item.getItem().getId(), item.getQuantidade());
+
+			} else {
+
+				mapaLinha.put(item.getItem().getId(), mapaLinha.get(item.getItem().getId()) + item.getQuantidade());
+
+			}
+
+		}
+
+		Map<String, Double> mapaMovimentacao = new HashMap<String, Double>();
+
+		for (TabelaUsuarioMovimentacao item : movimentacoes) {
+
+			if (!mapaMovimentacao.containsKey(item.getItem().getId())) {
+
+				mapaMovimentacao.put(item.getItem().getId(), item.getQuantidade());
+
+			} else {
+
+				mapaMovimentacao.put(item.getItem().getId(), mapaMovimentacao.get(item.getItem().getId()) + item.getQuantidade());
+
+			}
+
+		}
+
+		retorno.append(this.validarMovimentacoes(mapaLinha, mapaMovimentacao));
+
+		retorno.append(this.validarMovimentacoes(mapaMovimentacao, mapaLinha));
+
+		return retorno.toString();
+
+	}
+
+	private String validarMovimentacoes(Map<String, Double> mapaOrigem, Map<String, Double> mapaDestino) {
+
+		StringBuilder retorno = new StringBuilder();
+
+		for (Map.Entry<String, Double> entry : mapaOrigem.entrySet()) {
+
+			if (!mapaDestino.containsKey(entry.getKey())) {
+
+				retorno.append("Favor inserir em nota.movimentações e nota.linhas o item.id " + entry.getKey() +  ". \n");
+
+			} else {
+
+				if (mapaDestino.get(entry.getKey()).doubleValue() != entry.getValue().doubleValue()) {
+
+					retorno.append("Favor inserir a mesma quantidade do item.id " + entry.getKey() + " tanto para nota.movimentações quanto para nota.linhas" + ". \n");
+
+				}
 
 			}
 

@@ -10,7 +10,7 @@ import br.com.topsys.util.TSUtil;
 
 public class TabelaUsuarioMovimentacaoValidation extends DocumentoValidationAB {
 
-	public String validarVenda(List<TabelaUsuarioMovimentacao> movimentacoes) {
+	public String validarVenda(List<TabelaUsuarioMovimentacao> movimentacoes, String tipoMovimentacao) {
 
 		StringBuilder retorno = new StringBuilder();
 
@@ -57,13 +57,15 @@ public class TabelaUsuarioMovimentacaoValidation extends DocumentoValidationAB {
 
 				}
 
-				if (TSUtil.isEmpty(model.getTipoMovimentacao()) || !"V".equals(model.getTipoMovimentacao())) {
+				if (TSUtil.isEmpty(model.getTipoMovimentacao()) || !tipoMovimentacao.equals(model.getTipoMovimentacao())) {
 
 					retorno.append(Constantes.OBJETO_OBRIGATORIO_MOVIMENTACOES_TIPO_MOVIMENTACAO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 				}
 
 			}
+			
+			contador++;
 
 		}
 

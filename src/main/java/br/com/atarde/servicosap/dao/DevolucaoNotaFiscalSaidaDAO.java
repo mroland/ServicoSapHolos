@@ -2,6 +2,7 @@ package br.com.atarde.servicosap.dao;
 
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaidaLinha;
+import br.com.atarde.servicosap.model.TabelaUsuarioMovimentacao;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.topsys.database.TSDataBaseBrokerIf;
 import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
@@ -44,6 +45,18 @@ public class DevolucaoNotaFiscalSaidaDAO {
 			model.getTransferenciaEstoqueReferencia().setDevolucaoNotaFiscalSaidaReferenciada(new DevolucaoNotaFiscalSaida(model.getInterfaceId()));
 
 			new TransferenciaEstoqueDAO().inserirInterface(model.getTransferenciaEstoqueReferencia(), broker);
+
+		}
+		
+		if (!TSUtil.isEmpty(model.getMovimentacoes())) {
+
+			for (TabelaUsuarioMovimentacao item : model.getMovimentacoes()) {
+
+				item.setDevolucaoNotaFiscalSaidaReferenciada(new DevolucaoNotaFiscalSaida(model.getInterfaceId()));
+
+				new TabelaUsuarioMovimentacaoDAO().inserirInterface(item, broker);
+
+			}
 
 		}
 

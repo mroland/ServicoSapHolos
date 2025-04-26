@@ -423,12 +423,12 @@ public class Constantes {
 
 	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_MOVIMENTACOES = "favor inserir atributo notaFiscalSaida.movimentações. ";
 
-	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto MovimentacaoVendaAvulsa válido.";
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_ITEM = "Favor inserir objeto Item ou atributo Item.id do Objeto TabelaUsuarioMovimentacao válido.";
 
-	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto MovimentacaoVendaAvulsa.";
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto TabelaUsuarioMovimentacao.";
 
-	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_ID_EXTERNO = "Favor inserir atributo idExterno do Objeto MovimentacaoVendaAvulsa. ";
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_ID_EXTERNO = "Favor inserir atributo idExterno do Objeto TabelaUsuarioMovimentacao. ";
 
-	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_TIPO_MOVIMENTACAO = "Favor inserir atributo tipoMovimentacao do Objeto MovimentacaoVendaAvulsa. ";
+	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_TIPO_MOVIMENTACAO = "Favor inserir atributo tipoMovimentacao do Objeto TabelaUsuarioMovimentacao. ";
 
 }

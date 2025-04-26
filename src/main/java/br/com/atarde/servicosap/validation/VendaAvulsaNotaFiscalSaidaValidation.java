@@ -195,7 +195,7 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 				if (TSUtil.isEmpty(retorno.toString())) {
 
-					retorno.append(new TabelaUsuarioMovimentacaoValidation().validarVenda(nota.getMovimentacoes()));
+					retorno.append(new TabelaUsuarioMovimentacaoValidation().validarVenda(nota.getMovimentacoes(), "V"));
 
 				}
 
