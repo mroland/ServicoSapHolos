@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
-import com.google.gson.Gson;
-
 import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
@@ -217,8 +215,6 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 					model.setPedidoVenda(new PedidoVenda());
 
 				}
-
-				model.setArquivoRemessa(new Gson().toJson(model));
 
 			}
 

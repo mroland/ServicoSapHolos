@@ -1,5 +1,7 @@
 package br.com.atarde.servicosap.business;
 
+import com.google.gson.Gson;
+
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EasyclassNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
@@ -142,6 +144,8 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 		StringBuilder retorno = new StringBuilder();
 
 		if (!TSUtil.isEmpty(model) && !TSUtil.isEmpty(model.getOrigem()) && !TSUtil.isEmpty(Utilitarios.tratarLong(model.getOrigem().getId()))) {
+
+			model.setArquivoRemessa(new Gson().toJson(model));
 
 			model.setEmpresa(new EmpresaDAO().obter(model.getEmpresa()));
 
