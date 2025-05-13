@@ -199,7 +199,7 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 				}
 
-				if (TSUtil.isEmpty(retorno.toString())) {
+				if (TSUtil.isEmpty(retorno.toString()) && !TSUtil.isEmpty(nota.getMovimentacoes())) {
 
 					retorno.append(this.validaMovimentacoes(nota.getLinhas(), nota.getMovimentacoes()));
 
@@ -269,7 +269,7 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 			if (!mapaDestino.containsKey(entry.getKey())) {
 
-				retorno.append("Favor inserir em nota.movimentações e nota.linhas o item.id " + entry.getKey() +  ". \n");
+				retorno.append("Favor inserir em nota.movimentações e nota.linhas o item.id " + entry.getKey() + ". \n");
 
 			} else {
 

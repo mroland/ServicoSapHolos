@@ -133,7 +133,7 @@ public class DevolucaoNotaFiscalSaidaValidation extends NotaFiscalSaidaValidatio
 
 				}
 
-				if (TSUtil.isEmpty(retorno.toString())) {
+				if (TSUtil.isEmpty(retorno.toString()) && !TSUtil.isEmpty(nota.getMovimentacoes())) {
 
 					retorno.append(this.validaMovimentacoes(nota.getLinhas(), nota.getMovimentacoes()));
 
