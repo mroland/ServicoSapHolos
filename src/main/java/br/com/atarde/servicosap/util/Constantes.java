@@ -400,20 +400,30 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA_QUANTIDADE = "Favor inserir atributo quantidade do Objeto TransferenciaEstoque.";
 
 	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.flagConsignado. ";
+	
+	public static final String OBJETO_OBRIGATORIO_NFF_SAIDA_FLAG_REMESSA = "favor inserir atributo notaFiscalSaida.flagRemessa. ";
 
 	public static final String OBJETO_SEQUENCIA_FATURA_FLAG_CONSIGNADO = "favor inserir atributo notaFiscalSaida.sequencia=28 quando consignado. ";
 
 	public static final Long SEQUENCIA_NFF_FATURA = 28L;
 
-	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO = 5L;
+	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO_VENDA_AVULSA = 5L;
+	
+	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA = 17L;
 
 	public static final Long UTILIZACAO_NFF_SAIDA_RETORNO_CONSIGNADO = 16L;
 
 	public static final String DEPOSITO_SEM_ESTOQUE = "199";
+	
+	public static final String DEPOSITO_PADRAO = "100";
 
-	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 5(remessa consignado) ";
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO_VENDA_AVULSA = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 5(remessa consignado) ";
+	
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_ASSINATURA = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 17(remessa assinatura) ";
 
 	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_DEPOSITO_CONSIGNADO = "favor inserir atributo estoque.id=199 do Objeto DocumentoLinhaAB quando consignado";
+	
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_DEPOSITO_PADRAO = "favor inserir atributo estoque.id=100 do Objeto DocumentoLinhaAB quando remessa";
 
 	public static final String OBJETO_DEVOLUCAONOTAFISCALSAIDA_LINHA_UTILIZACAO_RETORNO_CONSIGNADO = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 16(retorno consignado) ";
 

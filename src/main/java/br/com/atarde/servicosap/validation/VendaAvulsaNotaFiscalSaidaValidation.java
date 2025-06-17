@@ -357,9 +357,9 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 			if (Constantes.FILIAL_JORNAL.equals(filial.getId())) {
 
-				if (!Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO.equals(model.getUtilizacao().getId())) {
+				if (!Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO_VENDA_AVULSA.equals(model.getUtilizacao().getId())) {
 
-					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO + " na linha " + contador + ". " + "\n");
+					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO_VENDA_AVULSA + " na linha " + contador + ". " + "\n");
 
 				}
 

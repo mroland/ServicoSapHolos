@@ -23,6 +23,8 @@ import br.com.atarde.servicosap.sap.model.Usuario;
 @XmlRootElement
 public class AssinaturaNotaFiscalSaida extends NotaFiscalSaidaAB implements Serializable {
 
+	private Boolean flagRemessa;
+
 	private String uObservacao;
 
 	private List<AssinaturaNotaFiscalSaidaLinha> linhas;
@@ -105,6 +107,14 @@ public class AssinaturaNotaFiscalSaida extends NotaFiscalSaidaAB implements Seri
 
 	public void setUTermo(String uTermo) {
 		this.uTermo = uTermo;
+	}
+
+	public Boolean getFlagRemessa() {
+		return flagRemessa;
+	}
+
+	public void setFlagRemessa(Boolean flagRemessa) {
+		this.flagRemessa = flagRemessa;
 	}
 
 }
