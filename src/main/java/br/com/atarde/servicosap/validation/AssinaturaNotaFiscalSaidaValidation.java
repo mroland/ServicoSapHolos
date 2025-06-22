@@ -19,6 +19,8 @@ import br.com.atarde.servicosap.sap.model.DocumentoLinhaAB;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Filial;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
+import br.com.atarde.servicosap.sap.model.PedidoVenda;
+import br.com.atarde.servicosap.sap.model.PedidoVendaLinha;
 import br.com.atarde.servicosap.sap.model.RegraDistribuicao;
 import br.com.atarde.servicosap.sap.model.Utilizacao;
 import br.com.atarde.servicosap.util.Constantes;
@@ -145,8 +147,6 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 					linha.setCstICMS(new CST());
 
-					linha.setEstoque(new Estoque());
-
 					retorno.append(this.validaLinhaNFF(linha, model.getFilial(), contador, nota.getFlagRemessa()));
 
 					contador++;
@@ -165,7 +165,7 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 	}
 
-	protected String validaLinhaNFF(DocumentoLinhaAB model, Filial filial, int contador, Boolean flagRemessa) {
+	protected String validaLinhaNFF(AssinaturaNotaFiscalSaidaLinha model, Filial filial, int contador, Boolean flagRemessa) {
 
 		StringBuilder retorno = new StringBuilder();
 
@@ -230,14 +230,14 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_UTILIZACAO + " na linha " + contador + ". " + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 		}
-		
+
 		if (!TSUtil.isEmpty(flagRemessa) && flagRemessa) {
 
 			if (Constantes.FILIAL_JORNAL.equals(filial.getId())) {
 
 				if (!Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA.equals(model.getUtilizacao().getId())) {
 
-					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO_VENDA_AVULSA + " na linha " + contador + ". " + "\n");
+					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_ASSINATURA + " na linha " + contador + ". " + "\n");
 
 				}
 
@@ -248,6 +248,28 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 				}
 
 			}
+
+		}
+
+		if (!TSUtil.isEmpty(model.getPedidoVendaLinha())) {
+
+			if (TSUtil.isEmpty(model.getPedidoVendaLinha().getNumero())) {
+
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_PEDIDO_VENDA_LINHA_NUMERO);
+
+			}
+
+			if (TSUtil.isEmpty(model.getPedidoVendaLinha().getPedidoVenda()) || (TSUtil.isEmpty(Utilitarios.tratarLong(model.getPedidoVendaLinha().getPedidoVenda().getId())))) {
+
+				retorno.append(Constantes.OBJETO_OBRIGATORIO_PEDIDO_VENDA);
+
+			}
+
+		} else {
+
+			model.setPedidoVendaLinha(new PedidoVendaLinha());
+
+			model.getPedidoVendaLinha().setPedidoVenda(new PedidoVenda());
 
 		}
 
