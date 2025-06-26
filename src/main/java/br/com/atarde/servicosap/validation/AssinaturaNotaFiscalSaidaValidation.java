@@ -2,6 +2,8 @@ package br.com.atarde.servicosap.validation;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
@@ -15,7 +17,6 @@ import br.com.atarde.servicosap.sap.model.CFOP;
 import br.com.atarde.servicosap.sap.model.CST;
 import br.com.atarde.servicosap.sap.model.CodigoImposto;
 import br.com.atarde.servicosap.sap.model.ContaContabil;
-import br.com.atarde.servicosap.sap.model.DocumentoLinhaAB;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Filial;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
@@ -232,10 +233,14 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 		}
 
 		if (!TSUtil.isEmpty(flagRemessa) && flagRemessa) {
+			
+			List<Long> listaUtilizacaoRemessa = new ArrayList<>();
+			listaUtilizacaoRemessa.add(Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA);
+			listaUtilizacaoRemessa.add(Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA_ANTIGA);
 
 			if (Constantes.FILIAL_JORNAL.equals(filial.getId())) {
 
-				if (!Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA.equals(model.getUtilizacao().getId())) {
+				if (!listaUtilizacaoRemessa.contains(model.getUtilizacao().getId())) {
 
 					retorno.append(Constantes.OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_ASSINATURA + " na linha " + contador + ". " + "\n");
 

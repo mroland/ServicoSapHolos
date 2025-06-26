@@ -410,6 +410,8 @@ public class Constantes {
 	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_CONSIGNADO_VENDA_AVULSA = 5L;
 	
 	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA = 17L;
+	
+	public static final Long UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA_ANTIGA = 19L;
 
 	public static final Long UTILIZACAO_NFF_SAIDA_RETORNO_CONSIGNADO = 16L;
 
@@ -419,7 +421,7 @@ public class Constantes {
 
 	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_CONSIGNADO_VENDA_AVULSA = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 5(remessa consignado) ";
 	
-	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_ASSINATURA = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 17(remessa assinatura) ";
+	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_UTILIZACAO_REMESSA_ASSINATURA = "favor inserir atributo utilizacao do Objeto DocumentoLinhaAB = 17(remessa assinatura) ou 19(remessa assinatura old)";
 
 	public static final String OBJETO_NOTAFISCALSAIDA_LINHA_DEPOSITO_CONSIGNADO = "favor inserir atributo estoque.id=199 do Objeto DocumentoLinhaAB quando consignado";
 	
