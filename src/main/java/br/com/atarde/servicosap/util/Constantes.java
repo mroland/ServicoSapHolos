@@ -391,7 +391,7 @@ public class Constantes {
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ESTOQUE_IGUAL = "Favor inserir atributo estoqueOrigem.id e atributo estoqueDestino.id diferentes para o Objeto TransferenciaEstoque válido ";
 
-	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ORIGEM = "favor inserir atributo origem em DocumentoAB";
+	public static final String OBJETO_OBRIGATORIO_ORIGEM = "favor inserir atributo origem em DocumentoAB";
 
 	public static final String OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_LINHA = "Favor informar atributo linhas do objeto TransferenciaEstoque.";
 

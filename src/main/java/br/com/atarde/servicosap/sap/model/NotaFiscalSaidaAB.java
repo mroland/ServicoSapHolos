@@ -8,7 +8,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.google.gson.annotations.SerializedName;
 
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
@@ -19,7 +21,7 @@ import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 
 @SuppressWarnings("serial")
 @XmlRootElement
-@XmlSeeAlso({ AssinaturaNotaFiscalSaida.class, EasyclassNotaFiscalSaida.class, VendaAvulsaNotaFiscalSaida.class, FotografiaNotaFiscalSaida.class, DevolucaoNotaFiscalSaida.class })
+@XmlSeeAlso({ AssinaturaNotaFiscalSaida.class, EasyclassNotaFiscalSaida.class, VendaAvulsaNotaFiscalSaida.class, FotografiaNotaFiscalSaida.class, DevolucaoNotaFiscalSaida.class, NotaFiscalSaida.class })
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, // Identifica pelo nome da classe
 		include = JsonTypeInfo.As.PROPERTY, property = "@class" // Nome do campo pode ser customizado
@@ -28,7 +30,10 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 
 	private Long interfaceId;
 	private ParceiroNegocio cliente;
+
+	@JsonProperty("numeroDocumento")
 	private Long serial;
+
 	private Vendedor vendedor;
 	private Origem origem;
 	private Date dataVencimento;

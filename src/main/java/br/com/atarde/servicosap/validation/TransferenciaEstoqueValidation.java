@@ -65,7 +65,7 @@ public class TransferenciaEstoqueValidation extends DocumentoValidationAB {
 
 					if (TSUtil.isEmpty(model.getOrigem()) || TSUtil.isEmpty(new OrigemDAO().obter(new Origem(model.getEmpresa(), model.getOrigem().getId())))) {
 
-						retorno.append(Constantes.OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ORIGEM + Constantes.CAMPO_OBRIGATORIO + "\n");
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_ORIGEM + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 					}
 

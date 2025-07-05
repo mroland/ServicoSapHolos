@@ -3,20 +3,26 @@ package br.com.atarde.servicosap.business;
 import com.google.gson.Gson;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
+import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EasyclassNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
 import br.com.atarde.servicosap.dao.VendaAvulsaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.ClassificadosContratoNotaFiscalSaida;
+import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
+import br.com.atarde.servicosap.sap.dao.NotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.sap.dao.OrigemDAO;
+import br.com.atarde.servicosap.sap.model.NotaFiscalSaida;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.sap.model.Origem;
 import br.com.atarde.servicosap.sap.model.Status;
+import br.com.atarde.servicosap.util.Constantes;
 import br.com.atarde.servicosap.util.Utilitarios;
 import br.com.atarde.servicosap.validation.AssinaturaNotaFiscalSaidaValidation;
 import br.com.atarde.servicosap.validation.ClassificadosContratoNotaFiscalSaidaValidation;
+import br.com.atarde.servicosap.validation.DocumentoValidationAB;
 import br.com.atarde.servicosap.validation.EasyclassNotaFiscalSaidaValidation;
 import br.com.atarde.servicosap.validation.VendaAvulsaNotaFiscalSaidaValidation;
 import br.com.topsys.exception.TSApplicationException;
@@ -284,6 +290,61 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 		}
 
 		return retorno.toString();
+
+	}
+
+	public NotaFiscalSaidaAB obterPorIdExterno(NotaFiscalSaidaAB model) {
+
+		StringBuilder retorno = new StringBuilder();
+
+		if (TSUtil.isEmpty(model.getIdExterno())) {
+
+			retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCAL_ID_EXTERNO + Constantes.CAMPO_OBRIGATORIO + "\n");
+
+		}
+
+		if (TSUtil.isEmpty(model.getOrigem()) || TSUtil.isEmpty(model.getOrigem().getId())) {
+
+			retorno.append(Constantes.OBJETO_OBRIGATORIO_ORIGEM + "\n");
+
+		}
+
+		if (TSUtil.isEmpty(model.getEmpresa()) || (TSUtil.isEmpty(new EmpresaDAO().obter(model.getEmpresa())))) {
+
+			retorno.append(Constantes.OBJETO_EMPRESA_OBRIGATORIO + "\n");
+
+		} else {
+
+			model.setEmpresa(new EmpresaDAO().obter(model.getEmpresa()));
+
+		}
+
+		if (TSUtil.isEmpty(retorno.toString())) {
+
+			retorno.append(new DocumentoValidationAB().validarFilial(model));
+
+		}
+
+		NotaFiscalSaida nota = null;
+		if (TSUtil.isEmpty(retorno.toString())) {
+
+			nota = new NotaFiscalSaidaDAO().obterIdExterno(model);
+
+			if (TSUtil.isEmpty(nota)) {
+
+				retorno.append("Nota não existe ou está cancelada." + "\n");
+
+			}
+
+		}
+
+		if (!TSUtil.isEmpty(retorno.toString())) {
+
+			model.setMensagemErro(retorno.toString());
+
+		}
+
+		return !TSUtil.isEmpty(nota) ? nota : model;
 
 	}
 
