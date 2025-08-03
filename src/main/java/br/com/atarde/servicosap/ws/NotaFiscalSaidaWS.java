@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.atarde.servicosap.business.NotaFiscalBusiness;
-import br.com.atarde.servicosap.sap.model.NotaFiscalSaida;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.util.TokenService;
 import br.com.topsys.exception.TSApplicationException;

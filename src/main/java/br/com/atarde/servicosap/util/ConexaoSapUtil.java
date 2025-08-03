@@ -1,13 +1,13 @@
 package br.com.atarde.servicosap.util;
 
-import br.com.atarde.servicosap.sap.model.Empresa;
-import br.com.topsys.exception.TSApplicationException;
-import br.com.topsys.util.TSUtil;
-
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.SBOCOMConstants;
 import com.sap.smb.sbo.api.SBOCOMUtil;
 import com.sap.smb.sbo.api.SBOErrorMessage;
+
+import br.com.atarde.servicosap.sap.model.Empresa;
+import br.com.topsys.exception.TSApplicationException;
+import br.com.topsys.util.TSUtil;
 
 public class ConexaoSapUtil {
 

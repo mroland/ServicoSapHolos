@@ -3,13 +3,11 @@ package br.com.atarde.servicosap.business;
 import com.google.gson.Gson;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
-import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EasyclassNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
 import br.com.atarde.servicosap.dao.VendaAvulsaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.ClassificadosContratoNotaFiscalSaida;
-import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 import br.com.atarde.servicosap.sap.dao.NotaFiscalSaidaDAO;

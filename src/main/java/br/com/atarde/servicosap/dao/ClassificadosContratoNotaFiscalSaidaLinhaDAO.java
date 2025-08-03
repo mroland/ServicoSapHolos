@@ -2,8 +2,8 @@ package br.com.atarde.servicosap.dao;
 
 import java.util.List;
 
-import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.ClassificadosContratoNotaFiscalSaidaLinha;
+import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.topsys.database.TSDataBaseBrokerIf;
 import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
 import br.com.topsys.exception.TSApplicationException;

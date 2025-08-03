@@ -1,6 +1,7 @@
 package br.com.atarde.servicosap.validation;
 
 import br.com.atarde.servicosap.dao.EmpresaDAO;
+import br.com.atarde.servicosap.dao.TransferenciaEstoqueDAO;
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
 import br.com.atarde.servicosap.model.TransferenciaEstoqueLinha;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
@@ -36,6 +37,14 @@ public class TransferenciaEstoqueValidation extends DocumentoValidationAB {
 					retorno.append(Constantes.OBJETO_OBRIGATORIO_TRANSFERENCIA_ESTOQUE_ID_EXTERNO + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 				} else {
+					
+					if (!TSUtil.isEmpty(new TransferenciaEstoqueDAO().obterIdExternoInterface(model))) {
+
+						retorno.append("Transferência de estoque: " + Constantes.DOCUMENTOEXPORTADO + "\n");
+
+						return retorno.toString();
+
+					}
 
 					retorno.append(super.validar(model));
 
