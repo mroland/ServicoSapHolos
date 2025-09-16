@@ -154,7 +154,7 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 
 											}
 
-											if (TSUtil.isEmpty(p.getValor()) || (!TSUtil.isEmpty(p.getValor()) && p.getValor().compareTo(BigDecimal.ZERO) <= 0)) {
+											if (TSUtil.isEmpty(p.getValor()) /*|| (!TSUtil.isEmpty(p.getValor()) && p.getValor().compareTo(BigDecimal.ZERO) <= 0)*/) {
 
 												retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_VALOR + Constantes.CAMPO_OBRIGATORIO + "\n");
 
@@ -166,12 +166,13 @@ public class NotaFiscalSaidaValidation extends DocumentoValidationAB {
 
 										}
 
+										/*
 										if (model.getValor().setScale(2, RoundingMode.HALF_UP).compareTo(valor.setScale(2, RoundingMode.HALF_UP)) != 0) {
 
 											retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_VALOR_PARCELAS + Constantes.CAMPO_OBRIGATORIO + "\n");
 
 										}
-
+*/
 									}
 
 								}

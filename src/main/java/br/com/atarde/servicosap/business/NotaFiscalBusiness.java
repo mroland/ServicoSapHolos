@@ -1,6 +1,9 @@
 package br.com.atarde.servicosap.business;
 
+import java.util.Date;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.dao.EasyclassNotaFiscalSaidaDAO;
@@ -17,6 +20,7 @@ import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.sap.model.Origem;
 import br.com.atarde.servicosap.sap.model.Status;
 import br.com.atarde.servicosap.util.Constantes;
+import br.com.atarde.servicosap.util.CustomDateTypeAdapter;
 import br.com.atarde.servicosap.util.Utilitarios;
 import br.com.atarde.servicosap.validation.AssinaturaNotaFiscalSaidaValidation;
 import br.com.atarde.servicosap.validation.ClassificadosContratoNotaFiscalSaidaValidation;
@@ -149,7 +153,9 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 		if (!TSUtil.isEmpty(model) && !TSUtil.isEmpty(model.getOrigem()) && !TSUtil.isEmpty(Utilitarios.tratarLong(model.getOrigem().getId()))) {
 
-			model.setArquivoRemessa(new Gson().toJson(model));
+			//model.setArquivoRemessa(new Gson().toJson(model));
+			
+			model.setArquivoRemessa(new GsonBuilder().registerTypeAdapter(Date.class, new CustomDateTypeAdapter()).create().toJson(model));
 
 			model.setEmpresa(new EmpresaDAO().obter(model.getEmpresa()));
 

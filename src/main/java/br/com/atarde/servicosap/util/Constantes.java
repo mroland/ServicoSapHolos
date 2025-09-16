@@ -371,7 +371,7 @@ public class Constantes {
 
 	public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_DATA_VENCIMENTO = "favor inserir atributo notaFiscalSaidaAB.parcelas.dataVencimento com valor superior ou igual a data atual.";
 
-	public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_VALOR = "favor inserir atributo notaFiscalSaidaAB.parcelas.valor com valor>0.";
+	public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_PARCELA_VALOR = "favor inserir atributo notaFiscalSaidaAB.parcelas.valor.";
 
 	public static final String OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_VALOR_PARCELAS = "O valor das parcelas é diferente do valor total da nota.";
 
