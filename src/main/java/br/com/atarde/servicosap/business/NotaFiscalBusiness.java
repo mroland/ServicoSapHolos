@@ -2,7 +2,6 @@ package br.com.atarde.servicosap.business;
 
 import java.util.Date;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
