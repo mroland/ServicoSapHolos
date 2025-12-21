@@ -1,7 +1,6 @@
 package br.com.atarde.servicosap.validation;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 
 import br.com.atarde.servicosap.dao.DevolucaoNotaFiscalSaidaDAO;
