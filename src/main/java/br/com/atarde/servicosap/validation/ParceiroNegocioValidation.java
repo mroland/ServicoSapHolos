@@ -320,6 +320,24 @@ public class ParceiroNegocioValidation {
 
 			retorno.append(Constantes.PARCEIRO_NEGOCIO_INSCRICAO_ESTADUAL + "\n");
 
+		}else {
+			
+			if(!TSUtil.isEmpty(Utilitarios.tratarString(model.getIdentificadorFiscal().getInscricaoEstadual()))) {
+				
+				if(model.getIdentificadorFiscal().getInscricaoEstadual().toUpperCase().trim().equals("ISENTO") || model.getIdentificadorFiscal().getInscricaoEstadual().toUpperCase().trim().equals("ISENTA")) {
+					
+					model.getIdentificadorFiscal().setInscricaoEstadual("Isento");
+					
+				}
+											
+			}
+			
+			if(!TSUtil.isEmpty(model.getIdentificadorFiscal()) && !TSUtil.isEmpty(model.getIdentificadorFiscal().getTipoIdentificador()) && model.getIdentificadorFiscal().getTipoIdentificador().equals(Constantes.TIPO_IDENTIFICADOR_CPF)) {
+				
+				model.getIdentificadorFiscal().setInscricaoEstadual("Isento");
+				
+			}
+			
 		}
 
 		if ((TSUtil.isEmpty(model.getIdentificadorFiscal())) || (!TSUtil.isEmpty(Utilitarios.tratarString(model.getIdentificadorFiscal().getInscricaoEstadualSubstitutoTributaria())) && model.getIdentificadorFiscal().getInscricaoEstadualSubstitutoTributaria().length() > 15)) {
