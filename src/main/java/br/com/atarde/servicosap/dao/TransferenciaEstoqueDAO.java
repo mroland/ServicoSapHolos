@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
 import br.com.atarde.servicosap.model.TransferenciaEstoqueLinha;
-import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 import br.com.topsys.database.TSDataBaseBrokerIf;
 import br.com.topsys.database.factory.TSDataBaseBrokerFactory;
 import br.com.topsys.exception.TSApplicationException;

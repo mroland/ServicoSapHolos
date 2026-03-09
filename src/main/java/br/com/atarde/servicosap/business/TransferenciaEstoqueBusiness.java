@@ -1,10 +1,8 @@
 package br.com.atarde.servicosap.business;
 
 import br.com.atarde.servicosap.dao.TransferenciaEstoqueDAO;
-import br.com.atarde.servicosap.dao.VendaAvulsaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
 import br.com.atarde.servicosap.sap.model.Status;
-import br.com.atarde.servicosap.util.Constantes;
 import br.com.atarde.servicosap.validation.TransferenciaEstoqueValidation;
 import br.com.topsys.exception.TSApplicationException;
 import br.com.topsys.util.TSUtil;
