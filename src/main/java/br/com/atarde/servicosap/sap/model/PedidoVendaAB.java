@@ -5,30 +5,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
-import br.com.atarde.servicosap.model.DevolucaoNotaFiscalSaida;
 import br.com.atarde.servicosap.model.TransferenciaEstoque;
-import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 
 @SuppressWarnings("serial")
-@XmlRootElement
-@XmlSeeAlso({ AssinaturaNotaFiscalSaida.class, VendaAvulsaNotaFiscalSaida.class, DevolucaoNotaFiscalSaida.class, NotaFiscalSaida.class })
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, // Identifica pelo nome da classe
-		include = JsonTypeInfo.As.PROPERTY, property = "@class" // Nome do campo pode ser customizado
-)
-public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializable {
+public abstract class PedidoVendaAB extends DocumentoAB implements Serializable {
 
 	private Long interfaceId;
 	private ParceiroNegocio cliente;
 
-	@JsonProperty("numeroDocumento")
 	private Long serial;
 
 	private Vendedor vendedor;
@@ -39,11 +23,9 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 	private BigDecimal valor;
 	private String uEnderecoEntrega;
 	private Sequencia sequencia;
-	private ParcelaNotaFiscalSaida parcela;
-	// private List<ParcelaNotaFiscalSaida> parcelas;
+	private ParcelaPedidoVenda parcela;
 	private List<ParcelaAB> parcelas;
 	private BigDecimal percentualDesconto;
-	private PedidoVenda pedidoVenda;
 	private String observacao; // referente a comments
 
 	private TransferenciaEstoque transferenciaEstoqueReferencia;
@@ -133,14 +115,6 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 		this.percentualDesconto = percentualDesconto;
 	}
 
-	public ParcelaNotaFiscalSaida getParcela() {
-		return parcela;
-	}
-
-	public void setParcela(ParcelaNotaFiscalSaida parcela) {
-		this.parcela = parcela;
-	}
-
 	public ParceiroNegocio getCliente() {
 		return cliente;
 	}
@@ -163,14 +137,6 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 
 	public void setInterfaceId(Long interfaceId) {
 		this.interfaceId = interfaceId;
-	}
-
-	public PedidoVenda getPedidoVenda() {
-		return pedidoVenda;
-	}
-
-	public void setPedidoVenda(PedidoVenda pedidoVenda) {
-		this.pedidoVenda = pedidoVenda;
 	}
 
 	public String getObservacao() {
@@ -211,6 +177,14 @@ public abstract class NotaFiscalSaidaAB extends DocumentoAB implements Serializa
 
 	public void setArquivoRemessa(String arquivoRemessa) {
 		this.arquivoRemessa = arquivoRemessa;
+	}
+
+	public ParcelaPedidoVenda getParcela() {
+		return parcela;
+	}
+
+	public void setParcela(ParcelaPedidoVenda parcela) {
+		this.parcela = parcela;
 	}
 
 	public boolean isFlagPedidoVenda() {

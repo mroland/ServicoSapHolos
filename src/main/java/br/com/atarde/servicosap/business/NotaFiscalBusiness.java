@@ -5,12 +5,10 @@ import java.util.Date;
 import com.google.gson.GsonBuilder;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
-import br.com.atarde.servicosap.dao.EasyclassNotaFiscalSaidaDAO;
+import br.com.atarde.servicosap.dao.AssinaturaPedidoVendaDAO;
 import br.com.atarde.servicosap.dao.EmpresaDAO;
 import br.com.atarde.servicosap.dao.VendaAvulsaNotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
-import br.com.atarde.servicosap.model.ClassificadosContratoNotaFiscalSaida;
-import br.com.atarde.servicosap.model.EasyclassNotaFiscalSaida;
 import br.com.atarde.servicosap.model.VendaAvulsaNotaFiscalSaida;
 import br.com.atarde.servicosap.sap.dao.NotaFiscalSaidaDAO;
 import br.com.atarde.servicosap.sap.dao.OrigemDAO;
@@ -22,9 +20,7 @@ import br.com.atarde.servicosap.util.Constantes;
 import br.com.atarde.servicosap.util.CustomDateTypeAdapter;
 import br.com.atarde.servicosap.util.Utilitarios;
 import br.com.atarde.servicosap.validation.AssinaturaNotaFiscalSaidaValidation;
-import br.com.atarde.servicosap.validation.ClassificadosContratoNotaFiscalSaidaValidation;
 import br.com.atarde.servicosap.validation.DocumentoValidationAB;
-import br.com.atarde.servicosap.validation.EasyclassNotaFiscalSaidaValidation;
 import br.com.atarde.servicosap.validation.VendaAvulsaNotaFiscalSaidaValidation;
 import br.com.topsys.exception.TSApplicationException;
 import br.com.topsys.util.TSUtil;
@@ -40,15 +36,7 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 		case 1:// Easyclass
 
-			if (model instanceof EasyclassNotaFiscalSaida) {
-
-				return new EasyclassNotaFiscalSaidaDAO().inserirInterface((EasyclassNotaFiscalSaida) model);
-
-			} else {
-
-				model.setMensagemErro("Objeto NotaFiscalSaidaAB nao é uma instancia EasyclassNotaFiscalSaida.");
-
-			}
+			model.setMensagemErro("Ainda nao implementado Easyclass para a empresaId:" + model.getEmpresa().getId().toString());
 
 			break;
 		case 2: // VendaAvulsa
@@ -69,7 +57,15 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 			if (model instanceof AssinaturaNotaFiscalSaida) {
 
-				return new AssinaturaNotaFiscalSaidaDAO().inserirInterface((AssinaturaNotaFiscalSaida) model);
+				if (model.isFlagNotaFiscalSaida()) {
+
+					return new AssinaturaNotaFiscalSaidaDAO().inserirInterface((AssinaturaNotaFiscalSaida) model);
+
+				} else if (model.isFlagPedidoVenda()) {
+
+					new AssinaturaPedidoVendaDAO().inserirInterface((AssinaturaNotaFiscalSaida) model);
+
+				}
 
 			} else {
 
@@ -152,8 +148,6 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 		if (!TSUtil.isEmpty(model) && !TSUtil.isEmpty(model.getOrigem()) && !TSUtil.isEmpty(Utilitarios.tratarLong(model.getOrigem().getId()))) {
 
-			//model.setArquivoRemessa(new Gson().toJson(model));
-			
 			model.setArquivoRemessa(new GsonBuilder().registerTypeAdapter(Date.class, new CustomDateTypeAdapter()).create().toJson(model));
 
 			model.setEmpresa(new EmpresaDAO().obter(model.getEmpresa()));
@@ -164,15 +158,7 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 				case 1:// Easyclass
 
-					if (model instanceof EasyclassNotaFiscalSaida) {
-
-						retorno.append(new EasyclassNotaFiscalSaidaValidation().validar((EasyclassNotaFiscalSaida) model));
-
-					} else {
-
-						retorno.append("Objeto nao instanciado como Easyclass. ");
-
-					}
+					retorno.append("Ainda nao implementado Easyclass para a empresaId:" + model.getEmpresa().getId().toString());
 
 					break;
 
@@ -230,15 +216,7 @@ public class NotaFiscalBusiness extends MainBusiness<NotaFiscalSaidaAB> {
 
 				case 8: // Classificados
 
-					if (model instanceof ClassificadosContratoNotaFiscalSaida) {
-
-						retorno.append(new ClassificadosContratoNotaFiscalSaidaValidation().validar((ClassificadosContratoNotaFiscalSaida) model));
-
-					} else {
-
-						retorno.append("Objeto nao instanciado como ClassificadosContratoNotaFiscalSaida. ");
-
-					}
+					retorno.append("Ainda nao implementado ClassificadosContrato para a empresaId:" + model.getEmpresa().getId().toString());
 
 					break;
 

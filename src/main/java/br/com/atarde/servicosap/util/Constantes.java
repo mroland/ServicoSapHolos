@@ -444,5 +444,8 @@ public class Constantes {
 	public static final String OBJETO_OBRIGATORIO_MOVIMENTACOES_TIPO_MOVIMENTACAO = "Favor inserir atributo tipoMovimentacao do Objeto TabelaUsuarioMovimentacao. ";
 
 	public static final Integer TIPO_IDENTIFICADOR_CPF = 1;
+	
+    public static final String CLASSIFICACAO_ITEM_SERVICO= "1";
+    public static final String CLASSIFICACAO_ITEM_MATERIAL= "2";
 
 }

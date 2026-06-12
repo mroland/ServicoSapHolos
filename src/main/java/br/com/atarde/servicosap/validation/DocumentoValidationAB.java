@@ -3,6 +3,8 @@ package br.com.atarde.servicosap.validation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.util.Map;
+import java.util.Set;
 
 import br.com.atarde.servicosap.sap.dao.ContaContabilDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
@@ -15,6 +17,7 @@ import br.com.atarde.servicosap.sap.model.DocumentoAB;
 import br.com.atarde.servicosap.sap.model.DocumentoLinhaAB;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Filial;
+import br.com.atarde.servicosap.sap.model.Item;
 import br.com.atarde.servicosap.sap.model.RegraDistribuicao;
 import br.com.atarde.servicosap.sap.model.Utilizacao;
 import br.com.atarde.servicosap.util.Constantes;
@@ -91,7 +94,7 @@ public class DocumentoValidationAB {
 
 	}
 
-	protected String validaLinhaNFF(DocumentoLinhaAB model, Filial filial, int contador) {
+	protected String validaLinhaNFF2(DocumentoLinhaAB model, Filial filial, int contador) {
 
 		StringBuilder retorno = new StringBuilder();
 
@@ -219,5 +222,25 @@ public class DocumentoValidationAB {
 
 		return retorno.toString();
 	}
+	
+    protected String montarListaIds(Map<String, Set<Item>> lista, String chave) {
+
+        Set<Item> itens = lista.get(chave);
+
+        if (itens == null || itens.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Item item : itens) {
+            if (sb.length() > 0) {
+                sb.append(",");
+            }
+            sb.append(item.getId());
+        }
+
+        return sb.toString();
+    }
 
 }

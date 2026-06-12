@@ -2,9 +2,13 @@ package br.com.atarde.servicosap.sap.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import br.com.atarde.servicosap.util.Constantes;
+import br.com.topsys.util.TSUtil;
 
 @SuppressWarnings("serial")
 @JsonInclude(Include.NON_NULL)
@@ -25,6 +29,8 @@ public class Item implements Serializable {
 	private Boolean flagControleEstoque;
 	private Boolean flagItemVenda;
 	private Boolean flagItemCompra;
+	
+	private ClassificacaoItem classificacaoItem;
 
 	public String getDescricao() {
 		return descricao;
@@ -121,5 +127,37 @@ public class Item implements Serializable {
 	public void setFlagItemCompra(Boolean flagItemCompra) {
 		this.flagItemCompra = flagItemCompra;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Item)) {
+			return false;
+		}
+		Item that = (Item) o;
+		return Objects.equals(id, that.id); // ou o campo que identifica o item
+	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	public boolean isServico() {
+
+		return !TSUtil.isEmpty(this.classificacaoItem) && !TSUtil.isEmpty(this.classificacaoItem.getId()) && Constantes.CLASSIFICACAO_ITEM_SERVICO.equals(this.classificacaoItem.getId());
+
+	}
+
+	public ClassificacaoItem getClassificacaoItem() {
+		return classificacaoItem;
+	}
+
+	public void setClassificacaoItem(ClassificacaoItem classificacaoItem) {
+		this.classificacaoItem = classificacaoItem;
+	}
+
+	
 }

@@ -319,15 +319,17 @@ public class VendaAvulsaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidat
 
 			} else {
 
-				if (TSUtil.isEmpty(model.getEstoque()) || TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoque().getId(), model.getEmpresa())))) {
+				if (TSUtil.isEmpty(model.getItem().getEstoque())) {
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + " na linha " + contador + ". " + "\n");
+					model.getItem().setEstoque(new Estoque());
 
-				}
+				} else {
 
-				if (!model.getItem().getFlagControleEstoque() && !model.getItem().getFlagItemVenda()) {
+					if (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getItem(), model.getEmpresa())))) {
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO + " na linha " + contador + ". " + "\n");
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + "\n");
+
+					}
 
 				}
 

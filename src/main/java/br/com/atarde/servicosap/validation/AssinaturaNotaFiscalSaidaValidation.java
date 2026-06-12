@@ -3,11 +3,17 @@ package br.com.atarde.servicosap.validation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import br.com.atarde.servicosap.dao.AssinaturaNotaFiscalSaidaDAO;
+import br.com.atarde.servicosap.dao.AssinaturaPedidoVendaDAO;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaida;
 import br.com.atarde.servicosap.model.AssinaturaNotaFiscalSaidaLinha;
+import br.com.atarde.servicosap.model.AssinaturaPedidoVenda;
 import br.com.atarde.servicosap.sap.dao.ContaContabilDAO;
 import br.com.atarde.servicosap.sap.dao.EstoqueDAO;
 import br.com.atarde.servicosap.sap.dao.ItemDAO;
@@ -19,6 +25,7 @@ import br.com.atarde.servicosap.sap.model.CodigoImposto;
 import br.com.atarde.servicosap.sap.model.ContaContabil;
 import br.com.atarde.servicosap.sap.model.Estoque;
 import br.com.atarde.servicosap.sap.model.Filial;
+import br.com.atarde.servicosap.sap.model.Item;
 import br.com.atarde.servicosap.sap.model.NotaFiscalSaidaAB;
 import br.com.atarde.servicosap.sap.model.PedidoVenda;
 import br.com.atarde.servicosap.sap.model.PedidoVendaLinha;
@@ -54,7 +61,7 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 			AssinaturaNotaFiscalSaida nota = (AssinaturaNotaFiscalSaida) model;
 
-			if (!TSUtil.isEmpty(new AssinaturaNotaFiscalSaidaDAO().obterIdExternoInterface(nota))) {
+			if (!TSUtil.isEmpty(new AssinaturaNotaFiscalSaidaDAO().obterIdExternoInterface(nota)) || this.isExistePedidoVendaInterface(nota)) {
 
 				retorno.append(Constantes.DOCUMENTOEXPORTADO + "\n");
 
@@ -123,6 +130,8 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 			if (!TSUtil.isEmpty(nota.getLinhas()) || (!TSUtil.isEmpty(nota.getLinhas()) && nota.getLinhas().size() != 0)) {
 
+				Map<String, Set<Item>> lista = new HashMap<>();
+
 				int contador = 1;
 				for (AssinaturaNotaFiscalSaidaLinha linha : nota.getLinhas()) {
 
@@ -148,9 +157,33 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 					linha.setCstICMS(new CST());
 
-					retorno.append(this.validaLinhaNFF(linha, model.getFilial(), contador, nota.getFlagRemessa()));
+					retorno.append(this.validaLinhaNFF(linha, model.getFilial(), contador, nota.getFlagRemessa(), lista));
 
 					contador++;
+
+				}
+
+				if (lista.containsKey(Constantes.CLASSIFICACAO_ITEM_SERVICO)) {
+
+					model.setFlagPedidoVenda(true);
+
+				}
+
+				if (lista.containsKey(Constantes.CLASSIFICACAO_ITEM_MATERIAL)) {
+
+					model.setFlagNotaFiscalSaida(true);
+
+				}
+
+				if (model.isFlagNotaFiscalSaida() && model.isFlagPedidoVenda()) {
+
+					retorno.append("Favor separar em 2 nff´s pois existem itens que são de serviço e itens que são de material em uma mesma transação.");
+
+					String servicos = super.montarListaIds(lista, Constantes.CLASSIFICACAO_ITEM_SERVICO);
+					String materiais = super.montarListaIds(lista, Constantes.CLASSIFICACAO_ITEM_MATERIAL);
+
+					retorno.append("Itens de Serviço: ").append(servicos).append("\n");
+					retorno.append("Itens de Material: ").append(materiais).append("\n");
 
 				}
 
@@ -166,7 +199,24 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 	}
 
-	protected String validaLinhaNFF(AssinaturaNotaFiscalSaidaLinha model, Filial filial, int contador, Boolean flagRemessa) {
+	private boolean isExistePedidoVendaInterface(AssinaturaNotaFiscalSaida model) {
+
+		boolean retorno = false;
+
+		AssinaturaPedidoVenda saida = new AssinaturaPedidoVenda(model.getEmpresa());
+		saida.setOrigem(model.getOrigem());
+		saida.setIdExterno(model.getIdExterno());
+
+		if (!TSUtil.isEmpty(new AssinaturaPedidoVendaDAO().obterIdExternoInterface(saida))) {
+
+			retorno = true;
+
+		}
+
+		return retorno;
+	}
+
+	protected String validaLinhaNFF(AssinaturaNotaFiscalSaidaLinha model, Filial filial, int contador, Boolean flagRemessa, Map<String, Set<Item>> lista) {
 
 		StringBuilder retorno = new StringBuilder();
 
@@ -198,15 +248,21 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 
 			} else {
 
-				if (TSUtil.isEmpty(model.getEstoque()) || TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getEstoque().getId(), model.getEmpresa())))) {
+				String chave = model.getItem().isServico() ? Constantes.CLASSIFICACAO_ITEM_SERVICO : Constantes.CLASSIFICACAO_ITEM_MATERIAL;
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + " na linha " + contador + ". " + "\n");
+				lista.computeIfAbsent(chave, k -> new HashSet<>()).add(model.getItem());
 
-				}
+				if (TSUtil.isEmpty(model.getItem().getEstoque())) {
 
-				if (!model.getItem().getFlagControleEstoque() && !model.getItem().getFlagItemVenda()) {
+					model.getItem().setEstoque(new Estoque());
 
-					retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_TIPO_ITEM_OBRIGATORIO + " na linha " + contador + ". " + "\n");
+				} else {
+
+					if (TSUtil.isEmpty(new EstoqueDAO().obter(new Estoque(model.getItem(), model.getEmpresa())))) {
+
+						retorno.append(Constantes.OBJETO_OBRIGATORIO_NOTAFISCALSAIDA_LINHA_ITEM_ESTOQUE + "\n");
+
+					}
 
 				}
 
@@ -233,7 +289,7 @@ public class AssinaturaNotaFiscalSaidaValidation extends NotaFiscalSaidaValidati
 		}
 
 		if (!TSUtil.isEmpty(flagRemessa) && flagRemessa) {
-			
+
 			List<Long> listaUtilizacaoRemessa = new ArrayList<>();
 			listaUtilizacaoRemessa.add(Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA);
 			listaUtilizacaoRemessa.add(Constantes.UTILIZACAO_NFF_SAIDA_REMESSA_ASSINATURA_ANTIGA);

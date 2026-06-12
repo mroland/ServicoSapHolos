@@ -12,9 +12,9 @@ public class ItemDAO {
 
 		TSDataBaseBrokerIf broker = TSDataBaseBrokerFactory.getDataBaseBrokerIf(model.getEmpresa().getJndi());
 
-		broker.setSQL("SELECT OITM.\"ItemCode\", CASE WHEN OITM.\"InvntItem\" = 'Y' THEN TRUE ELSE FALSE END, CASE WHEN OITM.\"SellItem\" = 'Y' THEN TRUE ELSE FALSE END, CASE WHEN OITM.\"PrchseItem\" = 'Y' THEN TRUE ELSE FALSE END FROM " + model.getEmpresa().getDbInstancia() + ".OITM WHERE OITM.\"ItemCode\" = ?", model.getId());
+		broker.setSQL("SELECT OITM.\"ItemCode\", CASE WHEN OITM.\"InvntItem\" = 'Y' THEN TRUE ELSE FALSE END, CASE WHEN OITM.\"SellItem\" = 'Y' THEN TRUE ELSE FALSE END, CASE WHEN OITM.\"PrchseItem\" = 'Y' THEN TRUE ELSE FALSE END, OITM.\"ItemClass\" FROM " + model.getEmpresa().getDbInstancia() + ".OITM WHERE OITM.\"ItemCode\" = ?", model.getId());
 
-		return (Item) broker.getObjectBean(Item.class, "id", "flagControleEstoque", "flagItemVenda", "flagItemCompra");
+		return (Item) broker.getObjectBean(Item.class, "id", "flagControleEstoque", "flagItemVenda", "flagItemCompra", "classificacaoItem.id");
 
 	}
 
